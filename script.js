@@ -190,9 +190,13 @@
 
     // desenha a primeira caneta quando o simulador aparece
     if ('IntersectionObserver' in window) {
+      var started = false;
       var simIo = new IntersectionObserver(function (en) {
-        if (en[0].isIntersecting) { show(step); simIo.disconnect(); }
-      }, { threshold: .35 });
+        var vis = en[0].isIntersecting;
+        sim.classList.toggle("is-off", !vis); // pausa as animações contínuas fora da tela
+        if (vis && !started) { started = true; show(step); }
+      }, { threshold: 0.2 });
+      sim.classList.add("is-off");
       simIo.observe(sim);
     } else { show(1); }
   }
@@ -206,25 +210,34 @@
     var next = document.querySelector('[data-peek="1"]');
     document.getElementById('peekAll').textContent = items.length;
 
+    // posições dos cartões medidas uma vez (e de novo só ao redimensionar)
+    var stops = [], maxLeft = 0, shown = -1;
+    var measure = function () {
+      var pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+      stops = Array.prototype.map.call(items, function (el) { return el.offsetLeft - pad; });
+      maxLeft = track.scrollWidth - track.clientWidth;
+    };
     var current = function () {
-      var left = track.scrollLeft, best = 0, bestD = Infinity, pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
-      for (var i = 0; i < items.length; i++) {
-        var d = Math.abs(items[i].offsetLeft - pad - left);
+      var left = track.scrollLeft, best = 0, bestD = Infinity;
+      for (var i = 0; i < stops.length; i++) {
+        var d = Math.abs(stops[i] - left);
         if (d < bestD) { bestD = d; best = i; }
       }
       return best;
     };
     var update = function () {
-      var i = current();
-      nowEl.textContent = i + 1;
-      prev.disabled = track.scrollLeft < 4;
-      next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+      var i = current(), left = track.scrollLeft;
+      if (i !== shown) { shown = i; nowEl.textContent = i + 1; }
+      prev.disabled = left < 4;
+      next.disabled = left >= maxLeft - 4;
     };
     var go = function (dir) {
       var i = Math.min(items.length - 1, Math.max(0, current() + dir));
-      var pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
-      track.scrollTo({ left: items[i].offsetLeft - pad, behavior: reduceMotion ? 'auto' : 'smooth' });
+      track.scrollTo({ left: stops[i], behavior: reduceMotion ? 'auto' : 'smooth' });
     };
+    measure();
+    var rt = 0;
+    window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { measure(); update(); }, 150); });
     prev.addEventListener('click', function () { go(-1); });
     next.addEventListener('click', function () { go(1); });
     track.addEventListener('keydown', function (e) {

@@ -55,6 +55,7 @@ b, strong { font-weight: 700; }
 .wrap { width: min(100% - (var(--gutter) * 2), 1120px); margin-inline: auto; }
 
 section { padding-block: 56px; }
+main > section:not(.hero), .site-foot { content-visibility: auto; contain-intrinsic-size: auto 900px; }
 .sec-alt { background: var(--paper-alt); border-block: 1px solid var(--line); }
 h2 { font-size: clamp(1.9rem, 1.4rem + 2.2vw, 2.9rem); margin-bottom: 16px; }
 .sec-sub { font-size: 1.2rem; color: var(--ink-soft); max-width: 40em; margin-bottom: 32px; }
@@ -162,8 +163,9 @@ h2 { font-size: clamp(1.9rem, 1.4rem + 2.2vw, 2.9rem); margin-bottom: 16px; }
 .sim__again:hover { background: var(--paper-old); }
 
 .sim__phone { position: relative; width: min(100%, 300px); }
+.sim__phone::after { content: ""; position: absolute; left: 12%; right: 12%; bottom: -10px; height: 26px; border-radius: 50%; background: radial-gradient(closest-side, rgba(43,29,20,.22), rgba(43,29,20,0)); pointer-events: none; }
 .phone-svg { width: 100%; height: auto; overflow: visible; }
-.sim .phone-svg { filter: drop-shadow(0 16px 16px rgba(43,29,20,.16)); touch-action: manipulation; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.sim .phone-svg { position: relative; z-index: 1; touch-action: manipulation; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
 .sim__tip { display: none; }
 
 /* textos dentro das ilustrações */
@@ -195,6 +197,8 @@ h2 { font-size: clamp(1.9rem, 1.4rem + 2.2vw, 2.9rem); margin-bottom: 16px; }
 .pulse-ring { transform-box: fill-box; transform-origin: center; animation: ring 1.6s ease-out infinite; }
 .rec-ring { transform-box: fill-box; transform-origin: center; animation: ring 1.1s ease-out infinite; }
 .blink { animation: blink 1s steps(2) infinite; }
+.scr:not(.is-on) .pulse, .scr:not(.is-on) .pulse-ring, .scr:not(.is-on) .rec-ring, .scr:not(.is-on) .blink { animation: none; }
+.sim.is-off .pulse, .sim.is-off .pulse-ring, .sim.is-off .rec-ring, .sim.is-off .blink { animation-play-state: paused; }
 .late { opacity: 0; transform: translateY(10px); transition: opacity .4s ease .9s, transform .4s ease .9s; }
 .scr.is-on .late { opacity: 1; transform: none; }
 .stamp-svg { opacity: 0; }
