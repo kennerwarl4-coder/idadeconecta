@@ -20,6 +20,7 @@
 
   --f-display: "Fraunces", "Georgia", serif;
   --f-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-head: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-hand: "Caveat", "Segoe Print", cursive;
 
   --gutter: 16px;
@@ -118,7 +119,7 @@ h2 { font-size: clamp(1.9rem, 1.4rem + 2.2vw, 2.9rem); margin-bottom: 16px; }
 }
 .eyebrow--desk { display: none; }
 .eyebrow__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--tomato); box-shadow: 0 0 0 4px rgba(192,57,43,.15); }
-.hero__title { font-size: clamp(1.85rem, 1.35rem + 2.4vw, 3rem); line-height: 1.12; }
+.hero__title { font-family: var(--f-head); font-weight: 900; font-variation-settings: normal; letter-spacing: -.02em; font-size: clamp(1.9rem, 1.4rem + 2.4vw, 3.05rem); line-height: 1.1; }
 .hero__num {
   display: block; font-size: clamp(3.9rem, 2.6rem + 7vw, 7rem); line-height: .92; font-weight: 900; letter-spacing: -.035em;
   color: var(--tomato-ink); margin-bottom: 4px;
