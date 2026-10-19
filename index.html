@@ -14,30 +14,39 @@
 <meta property="og:title" content="Idade Conecta · +500 guias ilustrados para idosos usarem o celular">
 <meta property="og:description" content="Cada guia mostra a tela do celular desenhada, com um círculo onde tocar e a explicação em letra grande.">
 <meta property="og:url" content="https://vovoconectada.com.br">
-<meta property="og:image" content="https://vovoconectada.com.br/og-image.jpg">
+<meta property="og:image" content="https://vovoconectada.com.br/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23FBF4E4'/%3E%3Cpath d='M16 27S4 19.5 4 11.5A6 6 0 0 1 16 9a6 6 0 0 1 12 2.5C28 19.5 16 27 16 27z' fill='%23C0392B'/%3E%3C/svg%3E">
 
-<!-- Meta Pixel (o mesmo ID do checkout.html) -->
+<!-- Meta Pixel + UTMify: carregam depois que a página aparece (não atrasam a primeira tela).
+     Os eventos chamados antes disso ficam na fila e são enviados assim que o Pixel carrega. -->
 <script>
-  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  (function (w, d) {
+    if (w.fbq) return;
+    var n = w.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+    if (!w._fbq) w._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = [];
+    var done = false;
+    function add(src, attrs) { var s = d.createElement('script'); s.async = true; s.src = src; for (var k in attrs) s.setAttribute(k, attrs[k]); d.head.appendChild(s); }
+    function load() {
+      if (done) return; done = true;
+      add('https://connect.facebook.net/en_US/fbevents.js', {});
+      add('https://cdn.utmify.com.br/scripts/utms/latest.js', { 'data-utmify-prevent-xcod-sck': '', 'data-utmify-prevent-subids': '' });
+    }
+    ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (e) { w.addEventListener(e, load, { once: true, passive: true }); });
+    w.addEventListener('load', function () { (w.requestIdleCallback || function (f) { setTimeout(f, 1200); })(load, { timeout: 2500 }); });
+  })(window, document);
   fbq('init', '4754698191442890');
   fbq('track', 'PageView');
   fbq('track', 'ViewContent', { value: 19.90, currency: 'BRL', content_name: 'Idade Conecta: +500 guias ilustrados + 4 bônus' });
 </script>
 <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=4754698191442890&ev=PageView&noscript=1"></noscript>
 
-<!-- UTMify: captura as UTMs dos anúncios -->
-<script src="https://cdn.utmify.com.br/scripts/utms/latest.js" data-utmify-prevent-xcod-sck data-utmify-prevent-subids async defer></script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@600;700&family=Nunito:wght@800;900&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,600..900,100;1,9..144,600,100&display=swap">
+<link rel="preload" href="assets/fonts/nunito-900.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/atkinson-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/logo-440.webp" as="image" type="image/webp" fetchpriority="high">
 <link rel="stylesheet" href="styles.css">
 <script>document.documentElement.classList.add('js')</script>
 <script src="script.js" defer></script>
@@ -77,7 +86,7 @@
 
 <header class="topbar">
   <div class="wrap topbar__in">
-    <a class="brand" href="#topo" aria-label="Idade Conecta, voltar ao topo"><img class="brand__logo" src="assets/logo-web.png" alt="Idade Conecta" width="720" height="180" fetchpriority="high"></a>
+    <a class="brand" href="#topo" aria-label="Idade Conecta, voltar ao topo"><picture><source srcset="assets/logo-440.webp" type="image/webp"><img class="brand__logo" src="assets/logo-440.png" alt="Idade Conecta" width="440" height="110" fetchpriority="high"></picture></a>
   </div>
 </header>
 
@@ -645,7 +654,7 @@
     <h2 id="bonus-t">Você também recebe 4 bônus</h2>
     <ul class="bonus__grid" role="list">
       <li class="bonus__item">
-        <picture><source srcset="assets/bonus-1.webp" type="image/webp"><img class="bonus__cover" src="assets/bonus-1.jpg" alt="Capa do Bônus 1: Configuração em 15 minutos" width="600" height="800" loading="lazy" decoding="async"></picture>
+        <picture><source srcset="assets/bonus-1-300.webp 300w, assets/bonus-1.webp 600w" sizes="(min-width: 1081px) 250px, (min-width: 600px) 130px, 116px" type="image/webp"><img class="bonus__cover" src="assets/bonus-1.jpg" alt="Capa do Bônus 1: Configuração em 15 minutos" width="600" height="800" loading="lazy" decoding="async"></picture>
         <div class="bonus__body">
           <p class="bonus__n">Bônus 1</p>
           <h3>Configuração em 15 minutos</h3>
@@ -653,7 +662,7 @@
         </div>
       </li>
       <li class="bonus__item bonus__item--key">
-        <picture><source srcset="assets/bonus-2.webp" type="image/webp"><img class="bonus__cover" src="assets/bonus-2.jpg" alt="Capa do Bônus 2: Cartão Antigolpe" width="600" height="800" loading="lazy" decoding="async"></picture>
+        <picture><source srcset="assets/bonus-2-300.webp 300w, assets/bonus-2.webp 600w" sizes="(min-width: 1081px) 250px, (min-width: 600px) 130px, 116px" type="image/webp"><img class="bonus__cover" src="assets/bonus-2.jpg" alt="Capa do Bônus 2: Cartão Antigolpe" width="600" height="800" loading="lazy" decoding="async"></picture>
         <div class="bonus__body">
           <p class="bonus__n">Bônus 2</p>
           <h3>Cartão Antigolpe</h3>
@@ -661,7 +670,7 @@
         </div>
       </li>
       <li class="bonus__item">
-        <picture><source srcset="assets/bonus-3.webp" type="image/webp"><img class="bonus__cover" src="assets/bonus-3.jpg" alt="Capa do Bônus 3: Ficha de contatos de emergência" width="600" height="800" loading="lazy" decoding="async"></picture>
+        <picture><source srcset="assets/bonus-3-300.webp 300w, assets/bonus-3.webp 600w" sizes="(min-width: 1081px) 250px, (min-width: 600px) 130px, 116px" type="image/webp"><img class="bonus__cover" src="assets/bonus-3.jpg" alt="Capa do Bônus 3: Ficha de contatos de emergência" width="600" height="800" loading="lazy" decoding="async"></picture>
         <div class="bonus__body">
           <p class="bonus__n">Bônus 3</p>
           <h3>Ficha de contatos de emergência</h3>
@@ -669,7 +678,7 @@
         </div>
       </li>
       <li class="bonus__item">
-        <picture><source srcset="assets/bonus-4.webp" type="image/webp"><img class="bonus__cover" src="assets/bonus-4.jpg" alt="Capa do Bônus 4: Folha de missões" width="600" height="800" loading="lazy" decoding="async"></picture>
+        <picture><source srcset="assets/bonus-4-300.webp 300w, assets/bonus-4.webp 600w" sizes="(min-width: 1081px) 250px, (min-width: 600px) 130px, 116px" type="image/webp"><img class="bonus__cover" src="assets/bonus-4.jpg" alt="Capa do Bônus 4: Folha de missões" width="600" height="800" loading="lazy" decoding="async"></picture>
         <div class="bonus__body">
           <p class="bonus__n">Bônus 4</p>
           <h3>Folha de missões</h3>
@@ -716,7 +725,7 @@
 <section class="offer sec-alt" id="oferta" aria-labelledby="offer-t">
   <div class="wrap">
     <div class="offer__box" id="oferta-card" data-reveal>
-      <img class="offer__logo" src="assets/logo-web.png" alt="Idade Conecta" width="720" height="180" loading="lazy">
+      <picture><source srcset="assets/logo-440.webp" type="image/webp"><img class="offer__logo" src="assets/logo-440.png" alt="Idade Conecta" width="440" height="110" loading="lazy" decoding="async"></picture>
       <div class="offer__price">
         <p class="offer__kicker">Oferta completa</p>
         <p class="offer__value">R$ 19,90</p>

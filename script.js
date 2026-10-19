@@ -232,10 +232,18 @@
       next.disabled = left >= maxLeft - 4;
     };
     var go = function (dir) {
+      if (!stops.length) measure();
       var i = Math.min(items.length - 1, Math.max(0, current() + dir));
       track.scrollTo({ left: stops[i], behavior: reduceMotion ? 'auto' : 'smooth' });
     };
-    measure();
+    // mede só quando o carrossel chega perto da tela (não força layout no carregamento)
+    prev.disabled = true;
+    if ("IntersectionObserver" in window) {
+      var peekIo = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting) { measure(); update(); peekIo.disconnect(); }
+      }, { rootMargin: "200px 0px" });
+      peekIo.observe(track);
+    } else { measure(); }
     var rt = 0;
     window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { measure(); update(); }, 150); });
     prev.addEventListener('click', function () { go(-1); });
@@ -245,8 +253,7 @@
       if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
     });
     var raf = 0;
-    track.addEventListener('scroll', function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); }, { passive: true });
-    update();
+    track.addEventListener('scroll', function () { if (!stops.length) measure(); cancelAnimationFrame(raf); raf = requestAnimationFrame(update); }, { passive: true });
   }
 
 

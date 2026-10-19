@@ -1,0 +1,13 @@
+# Arquivos que não precisam ir para o site publicado
+.env
+.env.*
+!.env.example
+
+# Imagens originais (pesadas). A página usa as versões otimizadas.
+assets/Cartão Antigolpe na Geladeira.png
+assets/Configuração em 15 Minutos.png
+assets/Ficha de Contatos de Emergência.png
+assets/Folha de Missões_ Bônus 4.png
+assets/Guia Idade Conecta_ Celular Sem Medo.png
+assets/logo.png
+assets/logo-web.png
