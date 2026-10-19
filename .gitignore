@@ -1,0 +1,9 @@
+# Chaves e senhas: nunca enviar para o GitHub
+.env
+.env.*
+!.env.example
+
+# Vercel
+.vercel
+
+node_modules

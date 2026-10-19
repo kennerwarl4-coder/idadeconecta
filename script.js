@@ -250,16 +250,24 @@
   }
 
 
-  /* ---------- Botão do hero: rolagem suave até o card de oferta ---------- */
-  var heroCta = document.getElementById("heroCta");
+  /* ---------- Botões que levam ao card de oferta: rolagem suave ---------- */
   var offerCard = document.getElementById("oferta-card");
-  if (heroCta && offerCard) {
-    heroCta.addEventListener("click", function (e) {
-      e.preventDefault();
-      // desenha as seções do caminho para a posição final ficar exata
-      document.documentElement.classList.add("cv-off");
-      offerCard.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
-      if (history.replaceState) history.replaceState(null, "", "#oferta-card");
+  if (offerCard) {
+    Array.prototype.forEach.call(document.querySelectorAll("a[href=\"#oferta-card\"]"), function (link) {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        // desenha as seções do caminho para a posição final ficar exata
+        document.documentElement.classList.add("cv-off");
+        offerCard.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+        if (history.replaceState) history.replaceState(null, "", "#oferta-card");
+      });
+    });
+  }
+
+  /* ---------- Checkout: leva junto as UTMs do anúncio ---------- */
+  if (location.search) {
+    Array.prototype.forEach.call(document.querySelectorAll('a[href="checkout.html"]'), function (link) {
+      link.setAttribute('href', 'checkout.html' + location.search);
     });
   }
 

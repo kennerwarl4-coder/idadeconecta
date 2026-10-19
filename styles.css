@@ -291,6 +291,11 @@ h2 { font-size: clamp(1.9rem, 1.4rem + 2.2vw, 2.9rem); margin-bottom: 16px; }
 .sheet figure { display: grid; gap: 10px; }
 .sheet figcaption { font-size: 1.5rem; text-align: center; color: var(--azulejo); }
 
+/* ---------- CTA dentro das seções ---------- */
+.sec-cta { display: grid; justify-items: center; max-width: 520px; margin: 36px auto 0; text-align: center; }
+.sec-cta__lead { font-weight: 700; font-size: 1.12rem; margin-bottom: 12px; text-wrap: balance; }
+.sec-cta .btn-cta { width: 100%; }
+
 /* ---------- CTA intermediário ---------- */
 .cta-band { padding-block: 8px 56px; }
 .cta-band__in { max-width: 520px; }

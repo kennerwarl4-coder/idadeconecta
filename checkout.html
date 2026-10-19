@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finalizar compra · Idade Conecta</title>
+<meta name="description" content="Finalize seu pedido do Idade Conecta com Pix e receba o acesso na hora.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#FBF4E4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23FBF4E4'/%3E%3Cpath d='M16 27S4 19.5 4 11.5A6 6 0 0 1 16 9a6 6 0 0 1 12 2.5C28 19.5 16 27 16 27z' fill='%23C0392B'/%3E%3C/svg%3E">
+
+<!-- Meta Pixel (o mesmo ID do index.html) -->
+<script>
+  window.IC_PIXEL_ID = '4754698191442890';
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', window.IC_PIXEL_ID);
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=4754698191442890&ev=PageView&noscript=1"></noscript>
+
+<!-- UTMify: captura e repassa as UTMs dos anúncios -->
+<script src="https://cdn.utmify.com.br/scripts/utms/latest.js" data-utmify-prevent-xcod-sck data-utmify-prevent-subids async defer></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Nunito:wght@800;900&display=swap">
+<script src="assets/qrcode.min.js" defer></script>
+
+<style>
+  :root {
+    --paper: #FBF4E4;
+    --paper-old: #FFF6D8;
+    --line: #E8DCC2;
+    --ink: #2B1D14;
+    --ink-soft: #5A4232;
+    --tomato-ink: #A8321F;
+    --green: #1A7F3C;
+    --green-hi: #22994A;
+    --green-deep: #0E5526;
+    --green-pale: #EAF6E5;
+    --f-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --f-head: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; font-family: var(--f-body); font-size: 1.125rem; line-height: 1.5; color: var(--ink);
+    background: radial-gradient(120% 600px at 50% 0%, #FFEDB8 0%, rgba(255,237,184,0) 72%) no-repeat, var(--paper);
+  }
+  img, svg { display: block; max-width: 100%; }
+  h1, h2, h3, p { margin: 0; }
+  :focus-visible { outline: 3px solid #1F4E96; outline-offset: 3px; border-radius: 6px; }
+  .nw { white-space: nowrap; }
+
+  .wrap { width: min(100% - 32px, 560px); margin-inline: auto; padding: 16px 0 48px; }
+
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  .top img { height: 40px; width: auto; }
+  .safe { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: #fff; border: 1px solid var(--line); font-size: .9rem; font-weight: 700; color: var(--ink-soft); }
+  .safe svg { width: 16px; height: 16px; color: var(--green); flex: none; }
+
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; margin-bottom: 14px; box-shadow: 0 10px 18px -16px rgba(43,29,20,.5); }
+  .card__head { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+  .card__body { padding: 18px; }
+  .step { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--green); color: #fff; font-family: var(--f-head); font-weight: 900; font-size: .95rem; flex: none; }
+  .card__head h2 { font-family: var(--f-head); font-weight: 900; font-size: 1.15rem; }
+
+  /* Resumo do pedido */
+  .summary { padding: 16px 18px; }
+  .summary__row { display: flex; align-items: center; gap: 14px; }
+  .summary__covers { display: grid; grid-template-columns: repeat(2, 30px); gap: 4px; flex: none; }
+  .summary__covers img { width: 30px; height: 40px; object-fit: cover; border-radius: 3px; border: 1px solid var(--line); }
+  .summary__name { flex: 1; min-width: 0; font-family: var(--f-head); font-weight: 900; font-size: 1.05rem; line-height: 1.25; }
+  .summary__name small { display: block; font-family: var(--f-body); font-weight: 700; font-size: .85rem; color: var(--green); margin-top: 4px; }
+  .summary__price { text-align: right; flex: none; }
+  .summary__price b { display: block; font-family: var(--f-head); font-weight: 900; font-size: 1.5rem; line-height: 1; }
+  .summary__price span { font-size: .8rem; color: var(--ink-soft); }
+  .summary__list { list-style: none; margin: 14px 0 0; padding: 12px 0 0; border-top: 1px dashed var(--line); display: grid; gap: 6px; }
+  .summary__list li { position: relative; padding-left: 26px; font-size: .98rem; }
+  .summary__list li::before { content: "✓"; position: absolute; left: 4px; top: 0; color: var(--green); font-weight: 700; }
+
+  /* Formulário */
+  .field { display: grid; gap: 6px; margin-bottom: 16px; }
+  .field:last-child { margin-bottom: 0; }
+  .field label { font-weight: 700; font-size: 1rem; }
+  .field input {
+    width: 100%; min-height: 56px; padding: 12px 14px; font: inherit; font-size: 1.1rem; color: var(--ink);
+    background: #FFFDF8; border: 2px solid #D9CBAE; border-radius: 10px; outline: none; transition: border-color .15s, box-shadow .15s;
+  }
+  .field input::placeholder { color: #8A7766; }
+  .field input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(26,127,60,.18); }
+  .field input.valid { border-color: #7DBB8E; }
+  .field input.error { border-color: var(--tomato-ink); box-shadow: 0 0 0 3px rgba(168,50,31,.15); }
+  .hint { font-size: .9rem; color: var(--ink-soft); }
+  .err { display: none; font-size: .92rem; font-weight: 700; color: var(--tomato-ink); }
+  .err.visible { display: block; }
+
+  .pay-method { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border: 2px solid var(--green); border-radius: 14px; background: var(--green-pale); margin-bottom: 14px; }
+  .pay-method svg { width: 34px; height: 34px; flex: none; }
+  .pay-method b { font-family: var(--f-head); font-weight: 900; font-size: 1.15rem; }
+  .pay-method span { display: block; font-size: .92rem; color: var(--ink-soft); }
+  .pay-method .tick { margin-left: auto; width: 26px; height: 26px; border-radius: 50%; background: var(--green); color: #fff; display: grid; place-items: center; font-weight: 700; flex: none; }
+
+  .btn {
+    display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; min-height: 64px; padding: 14px 20px;
+    background: linear-gradient(180deg, var(--green-hi), var(--green) 60%); color: #fff; text-decoration: none; cursor: pointer;
+    font-family: var(--f-body); font-weight: 700; font-size: 1.15rem; letter-spacing: .03em; text-align: center;
+    border: 2px solid var(--green-deep); border-radius: 14px; box-shadow: 0 4px 0 var(--green-deep), 0 10px 20px -10px rgba(43,29,20,.45);
+    transition: transform .12s, box-shadow .12s, filter .12s; -webkit-tap-highlight-color: transparent;
+  }
+  .btn:hover { filter: brightness(1.06); }
+  .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--green-deep); }
+  .btn:disabled { opacity: .7; cursor: wait; }
+  .btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+  .spinner { display: none; width: 22px; height: 22px; border: 3px solid rgba(255,255,255,.35); border-top-color: #fff; border-radius: 50%; animation: spin .8s linear infinite; }
+  .btn.loading .spinner { display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .form-error { display: none; margin-bottom: 14px; padding: 12px 14px; border-radius: 10px; background: #FBE9E5; border: 1px solid #E9B8AD; color: var(--tomato-ink); font-weight: 700; font-size: 1rem; }
+  .form-error.visible { display: block; }
+
+  .trust { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; margin-top: 14px; font-size: .92rem; font-weight: 700; color: var(--ink-soft); }
+  .trust span { display: inline-flex; align-items: center; gap: 6px; }
+  .trust svg { width: 16px; height: 16px; color: var(--green); }
+
+  .guarantee { display: flex; gap: 12px; align-items: center; padding: 14px 16px; margin-top: 14px; background: #fff; border: 1px solid var(--line); border-left: 5px solid #B98552; border-radius: 12px; font-size: .98rem; }
+  .guarantee b { font-family: var(--f-head); font-weight: 900; }
+  .seal { width: 54px; height: 54px; flex: none; }
+
+  /* Pix gerado */
+  #pix-display-card, #success-screen-card { display: none; }
+  .waiting { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--line); background: var(--paper-old); border-radius: 14px 14px 0 0; }
+  .waiting b { display: inline-flex; align-items: center; gap: 8px; font-family: var(--f-head); font-weight: 900; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); animation: pulse 1.6s ease-out infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(26,127,60,.5); } 100% { box-shadow: 0 0 0 10px rgba(26,127,60,0); } }
+  .expires { font-size: .92rem; font-weight: 700; color: var(--ink-soft); }
+  .pix-body { padding: 20px 18px; text-align: center; }
+  .pix-amount { font-size: 1.05rem; }
+  .pix-amount b { font-family: var(--f-head); font-weight: 900; font-size: 1.6rem; }
+  .qr { display: inline-block; margin: 14px auto; padding: 12px; background: #fff; border: 2px solid var(--line); border-radius: 12px; }
+  .qr canvas, .qr img { width: 200px !important; height: 200px !important; }
+  .pix-code { margin: 4px 0 12px; padding: 10px 12px; font-family: ui-monospace, monospace; font-size: .85rem; color: var(--ink-soft); background: var(--paper); border: 1px dashed #CDBB98; border-radius: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; user-select: all; }
+  .btn.copied { background: var(--green-deep); }
+  .how { margin-top: 18px; padding: 14px 16px; text-align: left; background: var(--paper-old); border-radius: 10px; }
+  .how b { display: block; font-family: var(--f-head); font-weight: 900; margin-bottom: 8px; }
+  .how ol { margin: 0; padding-left: 22px; display: grid; gap: 6px; font-size: 1rem; }
+  .expired { display: none; margin-top: 14px; }
+
+  /* Sucesso */
+  .success { padding: 30px 20px; text-align: center; }
+  .success__icon { width: 72px; height: 72px; margin: 0 auto 14px; border-radius: 50%; background: var(--green); display: grid; place-items: center; }
+  .success__icon svg { width: 40px; height: 40px; color: #fff; }
+  .success h2 { font-family: var(--f-head); font-weight: 900; font-size: 1.7rem; margin-bottom: 8px; }
+  .success p { color: var(--ink-soft); margin-bottom: 18px; }
+  .success p b { color: var(--ink); word-break: break-all; }
+
+  .foot { margin-top: 20px; text-align: center; font-size: .9rem; color: var(--ink-soft); }
+  .foot a { color: var(--ink-soft); }
+
+  .confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 50; }
+  .confetti i { position: absolute; top: -20px; width: 10px; height: 14px; border-radius: 2px; animation: fall 2.4s cubic-bezier(.2,.6,.4,1) forwards; }
+  @keyframes fall { to { transform: translate(var(--x), 105vh) rotate(var(--r)); opacity: .9; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+  }
+  @media (max-width: 380px) {
+    .wrap { width: min(100% - 24px, 560px); }
+    .top img { height: 34px; }
+    .safe { font-size: .8rem; padding: 5px 9px; }
+    .summary__covers { display: none; }
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <header class="top">
+    <a href="index.html" aria-label="Idade Conecta, voltar para a página do produto"><img src="assets/logo-web.png" alt="Idade Conecta" width="720" height="180"></a>
+    <span class="safe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 3v6c0 5.5-3.5 9.5-8 11-4.5-1.5-8-5.5-8-11V5z" fill="currentColor"/><path d="M8.5 12l2.5 2.5 4.5-5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Compra segura</span>
+  </header>
+
+  <!-- Resumo do pedido -->
+  <section class="card summary" aria-label="Resumo do pedido">
+    <div class="summary__row">
+      <div class="summary__covers" aria-hidden="true">
+        <img src="assets/bonus-1-mini.webp" alt="" width="160" height="213"><img src="assets/bonus-2-mini.webp" alt="" width="160" height="213">
+        <img src="assets/bonus-3-mini.webp" alt="" width="160" height="213"><img src="assets/bonus-4-mini.webp" alt="" width="160" height="213">
+      </div>
+      <p class="summary__name">+500 guias ilustrados + 4 bônus<small>Acesso imediato no seu e-mail</small></p>
+      <p class="summary__price"><b>R$ 19,90</b><span>pagamento único</span></p>
+    </div>
+    <ul class="summary__list">
+      <li>+500 guias ilustrados, passo a passo</li>
+      <li>Configuração em 15 minutos · Cartão Antigolpe</li>
+      <li>Ficha de contatos de emergência · Folha de missões</li>
+    </ul>
+  </section>
+
+  <!-- Formulário -->
+  <div id="checkout-form-container">
+    <form class="card" id="checkout-form" novalidate>
+      <div class="card__head"><span class="step">1</span><h2>Seus dados</h2></div>
+      <div class="card__body">
+        <div class="field">
+          <label for="lead-name">Nome completo</label>
+          <input type="text" id="lead-name" placeholder="Ex.: Maria da Silva" autocomplete="name" required aria-describedby="err-name">
+          <span class="err" id="err-name" role="alert">Escreva seu nome e sobrenome.</span>
+        </div>
+        <div class="field">
+          <label for="lead-email">E-mail para receber o acesso</label>
+          <input type="email" id="lead-email" placeholder="Ex.: maria@gmail.com" autocomplete="email" inputmode="email" required aria-describedby="hint-email err-email">
+          <span class="hint" id="hint-email">Confira com atenção: os guias chegam neste e-mail.</span>
+          <span class="err" id="err-email" role="alert">Esse e-mail parece incompleto. Confira, por favor.</span>
+        </div>
+        <div class="field">
+          <label for="lead-cpf">CPF</label>
+          <input type="text" id="lead-cpf" placeholder="000.000.000-00" maxlength="14" inputmode="numeric" autocomplete="off" required aria-describedby="hint-cpf err-cpf">
+          <span class="hint" id="hint-cpf">Exigido pelo banco para gerar o Pix.</span>
+          <span class="err" id="err-cpf" role="alert">CPF inválido. Confira os números.</span>
+        </div>
+        <div class="field">
+          <label for="lead-phone">WhatsApp com DDD</label>
+          <input type="tel" id="lead-phone" placeholder="(11) 99999-9999" maxlength="15" inputmode="tel" autocomplete="tel" required aria-describedby="err-phone">
+          <span class="err" id="err-phone" role="alert">Escreva o número com DDD.</span>
+        </div>
+      </div>
+    </form>
+
+    <div class="pay-method">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><g fill="#32BCAD"><path d="M24 6.5l6.6 6.6a5 5 0 0 0-3.6 1.5L24 17.6l-3-3a5 5 0 0 0-3.6-1.5z"/><path d="M24 41.5l-6.6-6.6a5 5 0 0 0 3.6-1.5l3-3 3 3a5 5 0 0 0 3.6 1.5z"/><path d="M13 15.3h4.4a3 3 0 0 1 2.2.9l3 3a2 2 0 0 0 2.8 0l3-3a3 3 0 0 1 2.2-.9H35l6.5 6.5a3 3 0 0 1 0 4.4L35 32.7h-4.4a3 3 0 0 1-2.2-.9l-3-3a2 2 0 0 0-2.8 0l-3 3a3 3 0 0 1-2.2.9H13l-6.5-6.5a3 3 0 0 1 0-4.4z"/></g></svg>
+      <div><b>Pix</b><span>Aprovação na hora, sem taxa</span></div>
+      <span class="tick" aria-hidden="true">✓</span>
+    </div>
+
+    <p class="form-error" id="form-error" role="alert"></p>
+
+    <button type="button" id="btn-generate-pix" class="btn">
+      <span class="spinner" aria-hidden="true"></span>
+      <span class="btn-text">GERAR PIX DE R$ 19,90</span>
+    </button>
+
+    <div class="trust">
+      <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z" fill="currentColor"/></svg>Acesso imediato</span>
+      <span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.2"/></svg>Dados protegidos</span>
+      <span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3" fill="currentColor"/></svg>Android e iPhone</span>
+    </div>
+
+    <div class="guarantee">
+      <svg class="seal" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="56" fill="#FFFBF0" stroke="#B98552" stroke-width="6"/><circle cx="60" cy="60" r="45" fill="none" stroke="#1F4E96" stroke-width="2" stroke-dasharray="3 3"/><text x="60" y="70" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="900" font-size="50" fill="#A8321F">7</text><text x="60" y="92" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="900" font-size="15" letter-spacing="2" fill="#A8321F">DIAS</text></svg>
+      <p><b>Garantia de 7 dias.</b> Se não gostar, devolvemos 100% do seu dinheiro. Sem perguntas.</p>
+    </div>
+  </div>
+
+  <!-- Pix gerado -->
+  <section class="card" id="pix-display-card" aria-labelledby="pix-t">
+    <div class="waiting">
+      <b id="pix-t"><span class="dot" aria-hidden="true"></span>Aguardando o pagamento</b>
+      <span class="expires">Válido por <span id="pix-timer-countdown">15:00</span></span>
+    </div>
+    <div class="pix-body">
+      <p class="pix-amount">Valor: <b>R$ 19,90</b></p>
+      <div class="qr" id="qr-code-box" aria-label="QR Code do Pix"></div>
+      <p class="pix-code" id="pix-code-text" title="Código Pix copia e cola">Carregando código…</p>
+      <button type="button" class="btn" id="btn-copy-pix-code"><span id="copy-btn-text">COPIAR CÓDIGO PIX</span></button>
+      <div class="how">
+        <b>Como pagar:</b>
+        <ol>
+          <li>Toque em <b style="display:inline;font-family:inherit">Copiar código Pix</b>.</li>
+          <li>Abra o app do seu banco e entre em <b style="display:inline;font-family:inherit">Pix &gt; Copia e Cola</b>.</li>
+          <li>Cole o código, confira o valor de R$ 19,90 e confirme.</li>
+          <li>Pronto! Esta tela muda sozinha quando o pagamento cair.</li>
+        </ol>
+      </div>
+      <div class="expired" id="pix-expired">
+        <p class="form-error visible">Este código Pix venceu. Gere um novo para continuar.</p>
+        <button type="button" class="btn" id="btn-new-pix">GERAR NOVO PIX</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sucesso -->
+  <section class="card success" id="success-screen-card" aria-labelledby="ok-t" tabindex="-1">
+    <div class="success__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h2 id="ok-t">Pagamento confirmado!</h2>
+    <p>Obrigado pela compra. O acesso aos +500 guias e aos 4 bônus foi enviado para<br><b id="success-email-target">seu e-mail</b></p>
+    <a href="#" class="btn" id="btn-start-access" target="_blank" rel="noopener" hidden>ACESSAR MEUS GUIAS AGORA</a>
+    <p class="hint" id="success-note" style="margin:14px 0 0">Não chegou? Olhe também a caixa de spam ou promoções.</p>
+  </section>
+
+  <footer class="foot">
+    <p>© 2026 Idade Conecta · Produto digital</p>
+    <p>Dúvidas: <a href="mailto:contato@vovoconectada.com.br">contato@vovoconectada.com.br</a></p>
+  </footer>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var PRICE = 19.90;
+  var CONTENT_NAME = 'Idade Conecta: +500 guias ilustrados + 4 bônus';
+
+  // ── 0. Pixel: InitiateCheckout uma vez por sessão ──
+  try {
+    if (typeof fbq === 'function' && !sessionStorage.getItem('ic_ic_fired')) {
+      sessionStorage.setItem('ic_ic_fired', '1');
+      fbq('track', 'InitiateCheckout', { value: PRICE, currency: 'BRL', content_name: CONTENT_NAME });
+    }
+  } catch (e) {}
+
+  // UTMs: guarda as que chegaram na URL (vindas do index.html)
+  (function () {
+    var params = new URLSearchParams(location.search);
+    var utms = {};
+    params.forEach(function (v, k) { utms[k] = v; });
+    if (Object.keys(utms).length) {
+      try { sessionStorage.setItem('ic_utms', JSON.stringify(utms)); localStorage.setItem('ic_utms', JSON.stringify(utms)); } catch (e) {}
+    }
+  })();
+  function getSavedUtms() {
+    var utms = {};
+    new URLSearchParams(location.search).forEach(function (v, k) { utms[k] = v; });
+    if (!Object.keys(utms).length) {
+      try { utms = JSON.parse(sessionStorage.getItem('ic_utms') || localStorage.getItem('ic_utms') || '{}'); } catch (e) {}
+    }
+    return utms;
+  }
+
+  // ── 1. Máscaras e validação ──
+  var nameInput = document.getElementById('lead-name');
+  var emailInput = document.getElementById('lead-email');
+  var cpfInput = document.getElementById('lead-cpf');
+  var phoneInput = document.getElementById('lead-phone');
+
+  cpfInput.addEventListener('input', function (e) {
+    var v = e.target.value.replace(/\D/g, '').slice(0, 11);
+    if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+    else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+    else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+    e.target.value = v;
+    validateCpf(false);
+  });
+  phoneInput.addEventListener('input', function (e) {
+    var v = e.target.value.replace(/\D/g, '').slice(0, 11);
+    if (v.length > 10) v = v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    else if (v.length > 6) v = v.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+    else if (v.length > 2) v = v.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+    else if (v.length > 0) v = v.replace(/(\d{0,2})/, '($1');
+    e.target.value = v;
+    validatePhone(false);
+  });
+  nameInput.addEventListener('blur', function () { validateName(true); });
+  emailInput.addEventListener('blur', function () { validateEmail(true); });
+  cpfInput.addEventListener('blur', function () { validateCpf(true); });
+  phoneInput.addEventListener('blur', function () { validatePhone(true); });
+
+  function setState(input, errId, ok, show) {
+    var err = document.getElementById(errId);
+    input.classList.toggle('valid', ok);
+    input.classList.toggle('error', !ok && show);
+    input.setAttribute('aria-invalid', !ok && show ? 'true' : 'false');
+    err.classList.toggle('visible', !ok && show);
+    return ok;
+  }
+  function validateName(show) { var v = nameInput.value.trim(); return setState(nameInput, 'err-name', v.length >= 3 && v.indexOf(' ') > 0, show); }
+  function validateEmail(show) { return setState(emailInput, 'err-email', /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailInput.value.trim()), show); }
+  function isValidCpf(cpf) {
+    var c = cpf.replace(/\D/g, ''), s = 0, r, i;
+    if (c.length !== 11 || /^(\d)\1{10}$/.test(c)) return false;
+    for (i = 1; i <= 9; i++) s += +c[i - 1] * (11 - i);
+    r = (s * 10) % 11; if (r === 10) r = 0; if (r !== +c[9]) return false;
+    s = 0; for (i = 1; i <= 10; i++) s += +c[i - 1] * (12 - i);
+    r = (s * 10) % 11; if (r === 10) r = 0; return r === +c[10];
+  }
+  function validateCpf(show) { return setState(cpfInput, 'err-cpf', isValidCpf(cpfInput.value), show); }
+  function validatePhone(show) { var d = phoneInput.value.replace(/\D/g, ''); return setState(phoneInput, 'err-phone', d.length >= 10 && d.length <= 11, show); }
+
+  // ── 2. Geração do Pix (api/create-pix.js) ──
+  var btnGenerate = document.getElementById('btn-generate-pix');
+  var btnText = btnGenerate.querySelector('.btn-text');
+  var formContainer = document.getElementById('checkout-form-container');
+  var formError = document.getElementById('form-error');
+  var pixCard = document.getElementById('pix-display-card');
+  var qrBox = document.getElementById('qr-code-box');
+  var pixCodeText = document.getElementById('pix-code-text');
+  var btnCopy = document.getElementById('btn-copy-pix-code');
+  var copyText = document.getElementById('copy-btn-text');
+  var successCard = document.getElementById('success-screen-card');
+
+  var identifier = null, pixCode = '', pollTimer = null, expiryTimer = null, paidHandled = false;
+
+  function showError(msg) { formError.textContent = msg; formError.classList.add('visible'); formError.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+
+  btnGenerate.addEventListener('click', async function () {
+    formError.classList.remove('visible');
+    var ok = [validateName(true), validateEmail(true), validateCpf(true), validatePhone(true)];
+    if (ok.indexOf(false) !== -1) {
+      var first = document.querySelector('.field input.error');
+      if (first) { first.focus(); first.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      return;
+    }
+
+    btnGenerate.disabled = true;
+    btnGenerate.classList.add('loading');
+    btnText.textContent = 'GERANDO SEU PIX…';
+
+    try {
+      var res = await fetch('/api/create-pix', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name: nameInput.value.trim(),
+          email: emailInput.value.trim().toLowerCase(),
+          cpf: cpfInput.value.replace(/\D/g, ''),
+          phone: phoneInput.value.replace(/\D/g, ''),
+          utms: getSavedUtms()
+        })
+      });
+      var data = await res.json().catch(function () { return null; });
+      if (!res.ok || !data || !data.success || !data.pix_code) {
+        throw new Error((data && data.message) || 'Não conseguimos gerar o Pix agora. Tente de novo em instantes.');
+      }
+
+      identifier = data.identifier;
+      pixCode = data.pix_code;
+      try { sessionStorage.setItem('ic_pix', JSON.stringify({ identifier: identifier, pixCode: pixCode, email: emailInput.value.trim(), at: Date.now() })); } catch (e) {}
+
+      showPix();
+      try { if (typeof fbq === 'function') fbq('track', 'AddPaymentInfo', { value: PRICE, currency: 'BRL', content_name: CONTENT_NAME }); } catch (e) {}
+    } catch (err) {
+      showError(err.message || 'Erro ao falar com o pagamento. Tente novamente.');
+    } finally {
+      btnGenerate.disabled = false;
+      btnGenerate.classList.remove('loading');
+      btnText.textContent = 'GERAR PIX DE R$ 19,90';
+    }
+  });
+
+  function showPix(secondsLeft) {
+    renderQr(pixCode);
+    pixCodeText.textContent = pixCode;
+    formContainer.style.display = 'none';
+    document.getElementById('pix-expired').style.display = 'none';
+    pixCard.style.display = 'block';
+    pixCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    startExpiry(secondsLeft || 15 * 60);
+    startPolling();
+  }
+
+  function renderQr(code) {
+    qrBox.innerHTML = '';
+    if (typeof QRCode !== 'undefined') {
+      new QRCode(qrBox, { text: code, width: 200, height: 200, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+    } else {
+      // biblioteca ainda carregando: tenta de novo em instantes
+      setTimeout(function () { if (typeof QRCode !== 'undefined') renderQr(code); }, 400);
+    }
+  }
+
+  // ── 3. Copiar código ──
+  btnCopy.addEventListener('click', async function () {
+    if (!pixCode) return;
+    try { await navigator.clipboard.writeText(pixCode); }
+    catch (e) {
+      var ta = document.createElement('textarea');
+      ta.value = pixCode; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    }
+    btnCopy.classList.add('copied');
+    copyText.textContent = 'CÓDIGO COPIADO! AGORA ABRA SEU BANCO';
+    setTimeout(function () { btnCopy.classList.remove('copied'); copyText.textContent = 'COPIAR CÓDIGO PIX'; }, 4000);
+  });
+
+  // ── 4. Verificação do pagamento (api/check-pix.js) ──
+  function startPolling() {
+    clearInterval(pollTimer);
+    pollTimer = setInterval(checkStatus, 4000);
+  }
+  async function checkStatus() {
+    if (!identifier) return;
+    try {
+      var res = await fetch('/api/check-pix?identifier=' + encodeURIComponent(identifier), { headers: { 'Accept': 'application/json' } });
+      var result = await res.json().catch(function () { return null; });
+      if (!result || !result.success) return;
+      var d = result.data || {};
+      if (d.paid) { clearInterval(pollTimer); onPaid(d.access_url); }
+      else if (d.status === 'failed' || d.status === 'expired' || d.status === 'canceled') { clearInterval(pollTimer); onExpired(); }
+    } catch (e) { /* tenta de novo no próximo ciclo */ }
+  }
+  // Ao voltar do app do banco, confere na hora
+  document.addEventListener('visibilitychange', function () { if (!document.hidden && identifier && !paidHandled) checkStatus(); });
+
+  function startExpiry(total) {
+    var left = total, el = document.getElementById('pix-timer-countdown');
+    clearInterval(expiryTimer);
+    (function tick() {
+      el.textContent = String(Math.floor(left / 60)).padStart(2, '0') + ':' + String(left % 60).padStart(2, '0');
+    })();
+    expiryTimer = setInterval(function () {
+      left--;
+      el.textContent = String(Math.max(0, Math.floor(left / 60))).padStart(2, '0') + ':' + String(Math.max(0, left % 60)).padStart(2, '0');
+      if (left <= 0) { clearInterval(expiryTimer); checkStatus().then(function () { if (!paidHandled) onExpired(); }); }
+    }, 1000);
+  }
+  function onExpired() {
+    clearInterval(pollTimer); clearInterval(expiryTimer);
+    try { sessionStorage.removeItem('ic_pix'); } catch (e) {}
+    document.getElementById('pix-expired').style.display = 'block';
+  }
+  document.getElementById('btn-new-pix').addEventListener('click', function () {
+    pixCard.style.display = 'none';
+    formContainer.style.display = 'block';
+    identifier = null; pixCode = '';
+    btnGenerate.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  // ── 5. Pagamento confirmado ──
+  function onPaid(accessUrl) {
+    if (paidHandled) return;
+    paidHandled = true;
+    clearInterval(expiryTimer);
+
+    // Pixel no navegador com o mesmo eventID do evento do servidor (o Meta conta uma vez só)
+    try {
+      var key = 'ic_purchase_' + identifier;
+      if (typeof fbq === 'function' && !localStorage.getItem(key)) {
+        localStorage.setItem(key, '1');
+        fbq('track', 'Purchase', { value: PRICE, currency: 'BRL', content_name: CONTENT_NAME, content_type: 'product' }, { eventID: identifier });
+      }
+    } catch (e) {}
+    var stored = '';
+    try { stored = (JSON.parse(sessionStorage.getItem('ic_pix') || '{}').email) || ''; } catch (e) {}
+    try { sessionStorage.removeItem('ic_pix'); } catch (e) {}
+    document.getElementById('success-email-target').textContent = emailInput.value.trim() || stored || 'seu e-mail';
+    var access = document.getElementById('btn-start-access');
+    if (accessUrl) { access.href = accessUrl; access.hidden = false; }
+
+    pixCard.style.display = 'none';
+    formContainer.style.display = 'none';
+    successCard.style.display = 'block';
+    successCard.focus({ preventScroll: true });
+    successCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    confetti();
+  }
+
+  function confetti() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var box = document.createElement('div'), colors = ['#1A7F3C', '#F7DC7A', '#C0392B', '#1F4E96', '#FAD7A8'];
+    box.className = 'confetti'; box.setAttribute('aria-hidden', 'true');
+    for (var i = 0; i < 70; i++) {
+      var p = document.createElement('i');
+      p.style.left = Math.random() * 100 + '%';
+      p.style.background = colors[i % colors.length];
+      p.style.setProperty('--x', (Math.random() * 160 - 80) + 'px');
+      p.style.setProperty('--r', (Math.random() * 720 - 360) + 'deg');
+      p.style.animationDelay = Math.random() * .5 + 's';
+      box.appendChild(p);
+    }
+    document.body.appendChild(box);
+    setTimeout(function () { box.remove(); }, 3200);
+  }
+
+  // ── 6. Recarregou a página com um Pix em aberto? Retoma de onde parou ──
+  try {
+    var saved = JSON.parse(sessionStorage.getItem('ic_pix') || 'null');
+    if (saved && saved.identifier && Date.now() - saved.at < 15 * 60 * 1000) {
+      identifier = saved.identifier; pixCode = saved.pixCode;
+      if (saved.email) emailInput.value = saved.email;
+      var left = Math.floor((15 * 60 * 1000 - (Date.now() - saved.at)) / 1000);
+      window.addEventListener('load', function () { showPix(left); checkStatus(); });
+    }
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>
