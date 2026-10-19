@@ -56,6 +56,8 @@ b, strong { font-weight: 700; }
 
 section { padding-block: 56px; }
 main > section:not(.hero), .site-foot { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+.cv-off main > section, .cv-off .site-foot { content-visibility: visible; }
+#oferta-card { scroll-margin-top: 16px; }
 .sec-alt { background: var(--paper-alt); border-block: 1px solid var(--line); }
 h2 { font-size: clamp(1.9rem, 1.4rem + 2.2vw, 2.9rem); margin-bottom: 16px; }
 .sec-sub { font-size: 1.2rem; color: var(--ink-soft); max-width: 40em; margin-bottom: 32px; }

@@ -68,7 +68,7 @@
       3: 'Está gravando! Fale à vontade e <strong>solte o dedo</strong> para enviar.',
       4: 'Pronto! A sua neta recebeu.'
     };
-    var END = '<small>Viu? É assim que cada guia funciona. E são mais de 350.</small>';
+    var END = '<small>Viu? É assim que cada guia funciona. E são mais de 500.</small>';
 
     function show(n) {
       step = n;
@@ -247,6 +247,20 @@
     var raf = 0;
     track.addEventListener('scroll', function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); }, { passive: true });
     update();
+  }
+
+
+  /* ---------- Botão do hero: rolagem suave até o card de oferta ---------- */
+  var heroCta = document.getElementById("heroCta");
+  var offerCard = document.getElementById("oferta-card");
+  if (heroCta && offerCard) {
+    heroCta.addEventListener("click", function (e) {
+      e.preventDefault();
+      // desenha as seções do caminho para a posição final ficar exata
+      document.documentElement.classList.add("cv-off");
+      offerCard.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      if (history.replaceState) history.replaceState(null, "", "#oferta-card");
+    });
   }
 
 })();
