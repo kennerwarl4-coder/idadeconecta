@@ -1,5 +1,7 @@
 const { createCashIn } = require('./_sync-client');
-const { PRODUCT, setCorsHeaders, parseBody } = require('./_product');
+const { PRODUCT, setCorsHeaders, parseBody, withTimeout } = require('./_product');
+const { seal, pickUtms, utmifyDate, requestContext, sendUtmifyOrder } = require('./_track');
+const store = require('./_store');
 
 module.exports = async function handler(req, res) {
   setCorsHeaders(res);
@@ -18,7 +20,7 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ success: false, message: 'JSON inválido no corpo da requisição.' });
     }
 
-    const { name, email, cpf, phone } = body;
+    const { name, email, cpf, phone, utms } = body;
 
     // Validações básicas
     if (!name || name.trim().length < 3) {
@@ -52,30 +54,49 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // A Sync Pay avisa o pagamento nesta rota (api/webhook.js)
+    const client = {
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+      cpf: cleanCpf,
+      phone: cleanPhone
+    };
+
+    // Pacote criptografado com tudo que a venda precisa quando o pagamento for confirmado
+    const ctx = requestContext(req);
+    const track = {
+      n: client.name, e: client.email, p: client.phone, d: client.cpf,
+      ip: ctx.ip, ua: ctx.ua, fbp: ctx.fbp, fbc: ctx.fbc,
+      u: pickUtms(utms || {}),
+      c: utmifyDate(Date.now())
+    };
+    const trackToken = seal(track);
+
+    // A Sync Pay avisa o pagamento nesta URL (limite dela: 255 caracteres)
     const host = req.headers['x-forwarded-host'] || req.headers.host;
-    const webhookUrl = process.env.SITE_URL
-      ? `${process.env.SITE_URL.replace(/\/$/, '')}/api/webhook`
-      : (host ? `https://${host}/api/webhook` : undefined);
+    const base = process.env.SITE_URL ? process.env.SITE_URL.replace(/\/$/, '') : (host ? `https://${host}` : '');
+    const webhookUrl = base ? `${base}/api/webhook` : undefined;
 
     const result = await createCashIn({
       amount: PRODUCT.amount,
       description: PRODUCT.name,
       webhook_url: webhookUrl,
-      client: {
-        name: name.trim(),
-        email: email.trim().toLowerCase(),
-        cpf: cleanCpf,
-        phone: cleanPhone
-      }
+      client
     });
+
+    // Guarda o pacote para o webhook (caso o cliente pague e feche a página) e
+    // registra o pedido como "aguardando pagamento" na UTMify
+    await withTimeout(Promise.all([
+      store.save('track:' + result.identifier, trackToken),
+      sendUtmifyOrder({ orderId: result.identifier, status: 'waiting_payment', track })
+    ]), 2500);
 
     return res.status(200).json({
       success: true,
       message: 'Cobrança Pix gerada com sucesso!',
       pix_code: result.pix_code,
       identifier: result.identifier,
-      amount: PRODUCT.amount
+      amount: PRODUCT.amount,
+      track: trackToken
     });
   } catch (error) {
     console.error('Erro ao gerar Pix:', error, error.details || '');

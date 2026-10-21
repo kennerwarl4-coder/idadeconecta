@@ -1,6 +1,8 @@
 const { getTransaction } = require('./_sync-client');
-const { sendMetaPurchaseEvent } = require('./_meta-capi');
-const { PRODUCT, isPaid, withTimeout, setCorsHeaders } = require('./_product');
+const { isPaid, withTimeout, setCorsHeaders } = require('./_product');
+const { open } = require('./_track');
+const store = require('./_store');
+const { registerSale } = require('./_sale');
 
 module.exports = async function handler(req, res) {
   setCorsHeaders(res);
@@ -24,17 +26,11 @@ module.exports = async function handler(req, res) {
     const status = txData?.status;
     const paid = isPaid(status);
 
-    // Pagamento confirmado pela Sync Pay: registra a compra no Meta (servidor).
-    // O mesmo event_id do Pixel do navegador evita contar a venda duas vezes.
+    // Pagamento confirmado pela Sync Pay: registra a venda no Meta e na UTMify.
+    // O pacote "t" foi devolvido pelo create-pix e traz os dados do cliente e as UTMs.
     if (paid) {
-      await withTimeout(sendMetaPurchaseEvent({
-        eventId: identifier,
-        value: PRODUCT.amount,
-        user: txData?.client || {},
-        req,
-        eventSourceUrl: req.headers.referer,
-        customData: { verified_via_status_polling: true }
-      }), 2500);
+      const track = open(req.query?.t || req.body?.t) || open(await store.load('track:' + identifier));
+      await withTimeout(registerSale({ identifier, track, req, source: 'status_polling' }), 3500);
     }
 
     // Devolve só o necessário: nunca os dados pessoais da transação

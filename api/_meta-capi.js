@@ -59,6 +59,7 @@ function parseCookies(req) {
  * @param {Object} [options.req] - Incoming HTTP request for IP and User-Agent
  * @param {string} [options.eventSourceUrl]
  * @param {Object} [options.customData]
+ * @param {Object} [options.context] - { ip, ua, fbp, fbc } guardados quando o Pix foi gerado
  */
 async function sendMetaPurchaseEvent({
   eventId,
@@ -67,7 +68,8 @@ async function sendMetaPurchaseEvent({
   user = {},
   req = null,
   eventSourceUrl = null,
-  customData = {}
+  customData = {},
+  context = {}
 }) {
   if (!META_PIXEL_ID || !META_ACCESS_TOKEN) {
     console.warn('[META CAPI] META_PIXEL_ID ou META_ACCESS_TOKEN não configurados. Evento ignorado.');
@@ -94,6 +96,13 @@ async function sendMetaPurchaseEvent({
     fbc = cookies['_fbc'] || null;
     fbp = cookies['_fbp'] || null;
   }
+
+  // O webhook é chamado pela Sync Pay, não pelo navegador do cliente:
+  // nesse caso usamos o IP, navegador e cookies guardados quando o Pix foi gerado.
+  if (context.ip) clientIp = context.ip;
+  if (context.ua) clientUa = context.ua;
+  fbp = fbp || context.fbp || null;
+  fbc = fbc || context.fbc || null;
 
   // Name splitting
   const rawName = (user.name || '').trim();

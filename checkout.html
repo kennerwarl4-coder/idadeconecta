@@ -12,7 +12,7 @@
 <!-- Meta Pixel + UTMify: carregam depois que a página aparece (o mesmo ID do index.html).
      Os eventos chamados antes disso ficam na fila e são enviados assim que o Pixel carrega. -->
 <script>
-  window.IC_PIXEL_ID = '4754698191442890';
+  window.IC_PIXEL_ID = '2001062227476766';
   (function (w, d) {
     if (w.fbq) return;
     var n = w.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
@@ -31,7 +31,7 @@
   fbq('init', window.IC_PIXEL_ID);
   fbq('track', 'PageView');
 </script>
-<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=4754698191442890&ev=PageView&noscript=1"></noscript>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=2001062227476766&ev=PageView&noscript=1"></noscript>
 
 <link rel="preload" href="assets/fonts/atkinson-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/nunito-900.woff2" as="font" type="font/woff2" crossorigin>
@@ -416,7 +416,7 @@
   var copyText = document.getElementById('copy-btn-text');
   var successCard = document.getElementById('success-screen-card');
 
-  var identifier = null, pixCode = '', pollTimer = null, expiryTimer = null, paidHandled = false;
+  var identifier = null, pixCode = '', track = '', pollTimer = null, expiryTimer = null, paidHandled = false;
 
   function showError(msg) { formError.textContent = msg; formError.classList.add('visible'); formError.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
 
@@ -452,7 +452,8 @@
 
       identifier = data.identifier;
       pixCode = data.pix_code;
-      try { sessionStorage.setItem('ic_pix', JSON.stringify({ identifier: identifier, pixCode: pixCode, email: emailInput.value.trim(), at: Date.now() })); } catch (e) {}
+      track = data.track || '';
+      try { sessionStorage.setItem('ic_pix', JSON.stringify({ identifier: identifier, pixCode: pixCode, track: track, email: emailInput.value.trim(), at: Date.now() })); } catch (e) {}
 
       showPix();
       try { if (typeof fbq === 'function') fbq('track', 'AddPaymentInfo', { value: PRICE, currency: 'BRL', content_name: CONTENT_NAME }); } catch (e) {}
@@ -508,7 +509,7 @@
   async function checkStatus() {
     if (!identifier) return;
     try {
-      var res = await fetch('/api/check-pix?identifier=' + encodeURIComponent(identifier), { headers: { 'Accept': 'application/json' } });
+      var res = await fetch('/api/check-pix?identifier=' + encodeURIComponent(identifier) + (track ? '&t=' + encodeURIComponent(track) : ''), { headers: { 'Accept': 'application/json' } });
       var result = await res.json().catch(function () { return null; });
       if (!result || !result.success) return;
       var d = result.data || {};
@@ -539,7 +540,7 @@
   document.getElementById('btn-new-pix').addEventListener('click', function () {
     pixCard.style.display = 'none';
     formContainer.style.display = 'block';
-    identifier = null; pixCode = '';
+    identifier = null; pixCode = ''; track = '';
     btnGenerate.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 
@@ -593,7 +594,7 @@
   try {
     var saved = JSON.parse(sessionStorage.getItem('ic_pix') || 'null');
     if (saved && saved.identifier && Date.now() - saved.at < 15 * 60 * 1000) {
-      identifier = saved.identifier; pixCode = saved.pixCode;
+      identifier = saved.identifier; pixCode = saved.pixCode; track = saved.track || '';
       if (saved.email) emailInput.value = saved.email;
       var left = Math.floor((15 * 60 * 1000 - (Date.now() - saved.at)) / 1000);
       window.addEventListener('load', function () { showPix(left); checkStatus(); });
