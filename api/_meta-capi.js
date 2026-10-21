@@ -1,13 +1,17 @@
 const crypto = require('crypto');
 const { PRODUCT } = require('./_product');
+const store = require('./_store');
 
 // Credenciais do Meta vêm das variáveis de ambiente. Nunca escreva o token aqui.
 const META_PIXEL_ID = process.env.META_PIXEL_ID;
 const META_ACCESS_TOKEN = process.env.META_ACCESS_TOKEN;
+// Opcional: código da aba "Testar eventos" do Gerenciador de Eventos (ex.: TEST12112).
+// Com ele, as compras aparecem lá; apague depois do teste.
+const META_TEST_EVENT_CODE = process.env.META_TEST_EVENT_CODE;
 
-// In-memory set to prevent duplicate server-side Purchase transmissions.
-// Em ambiente serverless isso vale só por instância; a deduplicação definitiva
-// é feita pelo próprio Meta, usando o mesmo event_id (= identificador do Pix).
+// A Compra é enviada só pelo servidor, e uma única vez por Pix:
+//  - na mesma instância: marca antes de enviar (cobre o checkout e o webhook chegando juntos);
+//  - entre instâncias: trava no Redis, quando configurado.
 const sentEventsCache = new Set();
 
 /**
@@ -81,6 +85,13 @@ async function sendMetaPurchaseEvent({
     console.log(`[META CAPI] Evento de compra ${dedupKey} já transmitido previamente. Ignorando duplicata.`);
     return { success: true, deduplicated: true };
   }
+  sentEventsCache.add(dedupKey);
+  if (!(await store.once('meta:' + dedupKey))) {
+    console.log(`[META CAPI] Evento de compra ${dedupKey} já enviado por outro caminho. Ignorando duplicata.`);
+    return { success: true, deduplicated: true };
+  }
+  // Se o envio falhar, libera para a próxima tentativa (checkout ou webhook)
+  const release = () => { sentEventsCache.delete(dedupKey); return store.remove('meta:' + dedupKey); };
 
   // Extract client IP & User Agent
   let clientIp = null;
@@ -155,6 +166,7 @@ async function sendMetaPurchaseEvent({
       }
     ]
   };
+  if (META_TEST_EVENT_CODE) eventPayload.test_event_code = META_TEST_EVENT_CODE;
 
   try {
     const url = `https://graph.facebook.com/v19.0/${META_PIXEL_ID}/events?access_token=${encodeURIComponent(META_ACCESS_TOKEN)}`;
@@ -171,15 +183,16 @@ async function sendMetaPurchaseEvent({
 
     if (!response.ok) {
       console.error('[META CAPI ERROR]:', response.status, result);
+      await release();
       return { success: false, status: response.status, error: result };
     }
 
-    sentEventsCache.add(dedupKey);
     console.log(`[META CAPI SUCCESS] Purchase registrado com sucesso para id: ${eventId}. fbtrace_id: ${result?.fbtrace_id}`);
     return { success: true, result };
 
   } catch (err) {
     console.error('[META CAPI NETWORK ERROR]:', err.message);
+    await release();
     return { success: false, error: err.message };
   }
 }

@@ -550,14 +550,8 @@
     paidHandled = true;
     clearInterval(expiryTimer);
 
-    // Pixel no navegador com o mesmo eventID do evento do servidor (o Meta conta uma vez só)
-    try {
-      var key = 'ic_purchase_' + identifier;
-      if (typeof fbq === 'function' && !localStorage.getItem(key)) {
-        localStorage.setItem(key, '1');
-        fbq('track', 'Purchase', { value: PRICE, currency: 'BRL', content_name: CONTENT_NAME, content_type: 'product' }, { eventID: identifier });
-      }
-    } catch (e) {}
+    // A Compra NÃO é enviada pelo navegador: o servidor (api/_sale.js) já envia ao Meta,
+    // com os dados do cliente, assim que a Sync Pay confirma. Enviar dos dois lados duplicava a venda.
     var stored = '';
     try { stored = (JSON.parse(sessionStorage.getItem('ic_pix') || '{}').email) || ''; } catch (e) {}
     try { sessionStorage.removeItem('ic_pix'); } catch (e) {}

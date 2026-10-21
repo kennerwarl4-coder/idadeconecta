@@ -50,4 +50,8 @@ async function once(key, ttl = 7 * DAY) {
   return r.result === 'OK';
 }
 
-module.exports = { save, load, once, isConfigured: () => !!config() };
+async function remove(key) {
+  return command(['DEL', key]);
+}
+
+module.exports = { save, load, once, remove, isConfigured: () => !!config() };
