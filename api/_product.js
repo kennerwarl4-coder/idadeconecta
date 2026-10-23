@@ -8,11 +8,15 @@ const PRODUCT = {
   currency: 'BRL'
 };
 
-// Status da Sync Pay que significam pagamento confirmado
-const PAID_STATUSES = ['completed', 'paid', 'approved'];
-
+// Status da LofyPay (endpoint /status). Só PAID_OUT é pago.
 function isPaid(status) {
-  return PAID_STATUSES.includes(String(status || '').toLowerCase());
+  return String(status || '').toUpperCase() === 'PAID_OUT';
+}
+
+// Status simples para o checkout
+function normalizeStatus(status) {
+  const s = String(status || '').toUpperCase();
+  return ({ PAID_OUT: 'paid', WAITING_FOR_APPROVAL: 'pending', EXPIRED: 'expired', FAILED: 'failed', REFUNDED: 'refunded' })[s] || 'pending';
 }
 
 // Espera uma promessa por no máximo `ms` (webhooks precisam responder rápido)
@@ -37,4 +41,4 @@ function parseBody(req) {
   return body || {};
 }
 
-module.exports = { PRODUCT, isPaid, withTimeout, setCorsHeaders, parseBody };
+module.exports = { PRODUCT, isPaid, normalizeStatus, withTimeout, setCorsHeaders, parseBody };

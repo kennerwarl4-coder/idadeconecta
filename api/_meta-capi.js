@@ -108,7 +108,7 @@ async function sendMetaPurchaseEvent({
     fbp = cookies['_fbp'] || null;
   }
 
-  // O webhook é chamado pela Sync Pay, não pelo navegador do cliente:
+  // O webhook é chamado pela LofyPay, não pelo navegador do cliente:
   // nesse caso usamos o IP, navegador e cookies guardados quando o Pix foi gerado.
   if (context.ip) clientIp = context.ip;
   if (context.ua) clientUa = context.ua;

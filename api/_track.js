@@ -1,15 +1,15 @@
 // Dados de rastreamento de um pedido (cliente, UTMs, IP, cookies do Meta).
-// A Sync Pay não devolve os dados do cliente na consulta da transação, e o projeto
-// não tem banco de dados. Por isso esses dados viajam num "pacote" criptografado:
-//  - dentro da URL do webhook que a Sync Pay chama quando o Pix é pago;
+// O gateway não devolve todos esses dados quando o Pix é pago. Por isso eles viajam
+// num "pacote" criptografado:
+//  - guardado no Redis (para o webhook, quando o cliente paga e fecha a página);
 //  - com o checkout, que reenvia o pacote a cada verificação de status.
 // AES-256-GCM: ninguém lê os dados pessoais (nem em logs) e ninguém consegue alterá-los.
 const crypto = require('crypto');
 const { PRODUCT } = require('./_product');
 
 function key() {
-  const secret = process.env.TRACKING_SECRET || process.env.SYNC_CLIENT_SECRET || '';
-  if (!secret) throw new Error('TRACKING_SECRET ou SYNC_CLIENT_SECRET não configurado.');
+  const secret = process.env.TRACKING_SECRET || process.env.LOFYPAY_SECRET_KEY || '';
+  if (!secret) throw new Error('TRACKING_SECRET ou LOFYPAY_SECRET_KEY não configurado.');
   return crypto.createHash('sha256').update('idadeconecta-track:' + secret).digest();
 }
 

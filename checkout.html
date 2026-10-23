@@ -504,7 +504,7 @@
   // ── 4. Verificação do pagamento (api/check-pix.js) ──
   function startPolling() {
     clearInterval(pollTimer);
-    pollTimer = setInterval(checkStatus, 4000);
+    pollTimer = setInterval(checkStatus, 5000);
   }
   async function checkStatus() {
     if (!identifier) return;
@@ -551,7 +551,7 @@
     clearInterval(expiryTimer);
 
     // A Compra NÃO é enviada pelo navegador: o servidor (api/_sale.js) já envia ao Meta,
-    // com os dados do cliente, assim que a Sync Pay confirma. Enviar dos dois lados duplicava a venda.
+    // com os dados do cliente, assim que a LofyPay confirma. Enviar dos dois lados duplicava a venda.
     var stored = '';
     try { stored = (JSON.parse(sessionStorage.getItem('ic_pix') || '{}').email) || ''; } catch (e) {}
     try { sessionStorage.removeItem('ic_pix'); } catch (e) {}
