@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Obrigado! · Idade Conecta</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#FBF4E4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23FBF4E4'/%3E%3Cpath d='M16 27S4 19.5 4 11.5A6 6 0 0 1 16 9a6 6 0 0 1 12 2.5C28 19.5 16 27 16 27z' fill='%23C0392B'/%3E%3C/svg%3E">
+
+<!-- Meta Pixel: só PageView aqui. A Compra é enviada pelo servidor (api/_sale.js). -->
+<script>
+  (function (w, d) {
+    if (w.fbq) return;
+    var n = w.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+    if (!w._fbq) w._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = [];
+    w.addEventListener('load', function () {
+      setTimeout(function () { var s = d.createElement('script'); s.async = true; s.src = 'https://connect.facebook.net/en_US/fbevents.js'; d.head.appendChild(s); }, 1500);
+    });
+  })(window, document);
+  fbq('init', '2001062227476766');
+  fbq('track', 'PageView');
+</script>
+
+<link rel="preload" href="assets/fonts/atkinson-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/nunito-900.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face { font-family: 'Atkinson Hyperlegible'; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/atkinson-400.woff2") format("woff2"); }
+  @font-face { font-family: 'Atkinson Hyperlegible'; font-style: normal; font-weight: 700; font-display: swap; src: url("assets/fonts/atkinson-700.woff2") format("woff2"); }
+  @font-face { font-family: 'Nunito'; font-style: normal; font-weight: 900; font-display: swap; src: url("assets/fonts/nunito-900.woff2") format("woff2"); }
+
+  :root {
+    --paper: #FBF4E4; --line: #E8DCC2; --ink: #2B1D14; --ink-soft: #5A4232; --tomato-ink: #A8321F;
+    --green: #1A7F3C; --green-hi: #22994A; --green-deep: #0E5526;
+    --f-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --f-head: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: var(--f-body); font-size: 1.125rem; line-height: 1.5; color: var(--ink);
+    background: radial-gradient(120% 600px at 50% 0%, #FFEDB8 0%, rgba(255,237,184,0) 72%) no-repeat, var(--paper);
+  }
+  img, svg { display: block; max-width: 100%; }
+  h1, p { margin: 0; }
+  :focus-visible { outline: 3px solid #1F4E96; outline-offset: 3px; border-radius: 6px; }
+  .wrap { width: min(100% - 32px, 560px); margin-inline: auto; padding: 16px 0 48px; }
+  .top { display: flex; justify-content: center; margin-bottom: 18px; }
+  .top img { height: 40px; width: auto; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 30px 20px; text-align: center; box-shadow: 0 10px 18px -16px rgba(43,29,20,.5); }
+  .icon { width: 72px; height: 72px; margin: 0 auto 14px; border-radius: 50%; display: grid; place-items: center; background: var(--green); }
+  .icon svg { width: 40px; height: 40px; color: #fff; }
+  .icon--wait { background: #FFF6D8; border: 2px solid var(--line); }
+  .spinner { width: 34px; height: 34px; border: 4px solid #E8DCC2; border-top-color: var(--green); border-radius: 50%; animation: spin .9s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  h1 { font-family: var(--f-head); font-weight: 900; font-size: 1.7rem; line-height: 1.15; margin-bottom: 10px; }
+  .lead { color: var(--ink-soft); margin-bottom: 20px; }
+  .lead b { color: var(--ink); word-break: break-all; }
+  .btn {
+    display: flex; align-items: center; justify-content: center; width: 100%; min-height: 64px; padding: 14px 20px;
+    background: linear-gradient(180deg, var(--green-hi), var(--green) 60%); color: #fff; text-decoration: none;
+    font-weight: 700; font-size: 1.15rem; letter-spacing: .03em; border: 2px solid var(--green-deep); border-radius: 14px;
+    box-shadow: 0 4px 0 var(--green-deep), 0 10px 20px -10px rgba(43,29,20,.45);
+  }
+  .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--green-deep); }
+  .btn--light { background: #fff; color: var(--ink); border-color: var(--ink); box-shadow: 0 4px 0 var(--ink); }
+  .hint { margin-top: 14px; font-size: .95rem; color: var(--ink-soft); }
+  .steps { margin: 22px 0 0; padding: 16px 18px; text-align: left; background: #FFF6D8; border-radius: 10px; }
+  .steps b { display: block; font-family: var(--f-head); font-weight: 900; margin-bottom: 6px; }
+  .steps ol { margin: 0; padding-left: 22px; display: grid; gap: 4px; font-size: 1rem; }
+  .foot { margin-top: 20px; text-align: center; font-size: .9rem; color: var(--ink-soft); }
+  .foot a { color: var(--ink-soft); }
+  [hidden] { display: none !important; }
+  .confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 50; }
+  .confetti i { position: absolute; top: -20px; width: 10px; height: 14px; border-radius: 2px; animation: fall 2.4s cubic-bezier(.2,.6,.4,1) forwards; }
+  @keyframes fall { to { transform: translate(var(--x), 105vh) rotate(var(--r)); opacity: .9; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <a href="/" aria-label="Idade Conecta, página inicial"><picture><source srcset="assets/logo-440.webp" type="image/webp"><img src="assets/logo-440.png" alt="Idade Conecta" width="440" height="110"></picture></a>
+  </header>
+
+  <!-- Confirmando (enquanto o servidor confere o pagamento) -->
+  <section class="card" id="state-wait" aria-live="polite">
+    <div class="icon icon--wait"><span class="spinner" aria-hidden="true"></span></div>
+    <h1>Confirmando seu pagamento…</h1>
+    <p class="lead">Isso leva só alguns segundos. Não feche esta página.</p>
+  </section>
+
+  <!-- Pago -->
+  <section class="card" id="state-ok" hidden tabindex="-1">
+    <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h1>Pagamento confirmado!</h1>
+    <p class="lead" id="ok-text">Obrigado pela compra. Os +500 guias e os 4 bônus já são seus.</p>
+    <a href="#" class="btn" id="btn-access" target="_blank" rel="noopener" hidden>ACESSAR MEUS GUIAS AGORA</a>
+    <div class="steps">
+      <b>Próximos passos</b>
+      <ol>
+        <li>Toque no botão acima para abrir os guias.</li>
+        <li>Salve o link nos favoritos ou baixe os arquivos.</li>
+        <li>Se quiser, imprima e entregue para seus pais.</li>
+      </ol>
+    </div>
+    <p class="hint" id="ok-hint">O acesso também foi enviado para o seu e-mail. Olhe a caixa de spam ou promoções.</p>
+  </section>
+
+  <!-- Não confirmado -->
+  <section class="card" id="state-fail" hidden>
+    <div class="icon icon--wait"><svg viewBox="0 0 24 24" aria-hidden="true" style="color:#A8321F"><path d="M12 7v6M12 17h.01" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div>
+    <h1>Ainda não recebemos o pagamento</h1>
+    <p class="lead">Se você já pagou, aguarde alguns minutos e atualize esta página. Se ainda não pagou, volte ao checkout.</p>
+    <a href="/checkout.html" class="btn btn--light">VOLTAR AO CHECKOUT</a>
+  </section>
+
+  <footer class="foot">
+    <p>© 2026 Idade Conecta · Produto digital</p>
+    <p>Dúvidas: <a href="mailto:contato@vovoconectada.com.br">contato@vovoconectada.com.br</a></p>
+  </footer>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var id = new URLSearchParams(location.search).get('id') || '';
+  var wait = document.getElementById('state-wait');
+  var ok = document.getElementById('state-ok');
+  var fail = document.getElementById('state-fail');
+  var tries = 0, MAX_TRIES = 40; // ~2 minutos tentando (a cada 3 s)
+
+  function show(el) { [wait, ok, fail].forEach(function (s) { s.hidden = s !== el; }); }
+
+  function onPaid(accessUrl) {
+    var email = '';
+    try { email = sessionStorage.getItem('ic_buyer_email') || ''; } catch (e) {}
+    if (email) {
+      var hint = document.getElementById('ok-hint');
+      hint.textContent = 'O acesso também foi enviado para ';
+      var b = document.createElement('b'); b.textContent = email; hint.appendChild(b);
+      hint.appendChild(document.createTextNode('. Olhe a caixa de spam ou promoções.'));
+    }
+    var btn = document.getElementById('btn-access');
+    if (accessUrl) { btn.href = accessUrl; btn.hidden = false; }
+    show(ok);
+    ok.focus({ preventScroll: true });
+    confetti();
+  }
+
+  // Confere no servidor (a página nunca mostra o acesso sem o pagamento confirmado)
+  async function check() {
+    tries++;
+    try {
+      var res = await fetch('/api/check-pix?identifier=' + encodeURIComponent(id), { headers: { 'Accept': 'application/json' } });
+      var r = await res.json().catch(function () { return null; });
+      if (r && r.success && r.data && r.data.paid) return onPaid(r.data.access_url);
+    } catch (e) { /* tenta de novo */ }
+    if (tries >= MAX_TRIES) return show(fail);
+    setTimeout(check, 3000);
+  }
+
+  function confetti() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var box = document.createElement('div'), colors = ['#1A7F3C', '#F7DC7A', '#C0392B', '#1F4E96', '#FAD7A8'];
+    box.className = 'confetti'; box.setAttribute('aria-hidden', 'true');
+    for (var i = 0; i < 70; i++) {
+      var p = document.createElement('i');
+      p.style.left = Math.random() * 100 + '%';
+      p.style.background = colors[i % colors.length];
+      p.style.setProperty('--x', (Math.random() * 160 - 80) + 'px');
+      p.style.setProperty('--r', (Math.random() * 720 - 360) + 'deg');
+      p.style.animationDelay = Math.random() * .5 + 's';
+      box.appendChild(p);
+    }
+    document.body.appendChild(box);
+    setTimeout(function () { box.remove(); }, 3200);
+  }
+
+  if (!/^[\w-]{1,100}$/.test(id)) show(fail);
+  else check();
+})();
+</script>
+</body>
+</html>

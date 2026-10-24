@@ -160,7 +160,7 @@
   .seal { width: 54px; height: 54px; flex: none; }
 
   /* Pix gerado */
-  #pix-display-card, #success-screen-card { display: none; }
+  #pix-display-card { display: none; }
   .waiting { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--line); background: var(--paper-old); border-radius: 14px 14px 0 0; }
   .waiting b { display: inline-flex; align-items: center; gap: 8px; font-family: var(--f-head); font-weight: 900; }
   .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); animation: pulse 1.6s ease-out infinite; }
@@ -307,15 +307,6 @@
     </div>
   </section>
 
-  <!-- Sucesso -->
-  <section class="card success" id="success-screen-card" aria-labelledby="ok-t" tabindex="-1">
-    <div class="success__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <h2 id="ok-t">Pagamento confirmado!</h2>
-    <p>Obrigado pela compra. O acesso aos +500 guias e aos 4 bônus foi enviado para<br><b id="success-email-target">seu e-mail</b></p>
-    <a href="#" class="btn" id="btn-start-access" target="_blank" rel="noopener" hidden>ACESSAR MEUS GUIAS AGORA</a>
-    <p class="hint" id="success-note" style="margin:14px 0 0">Não chegou? Olhe também a caixa de spam ou promoções.</p>
-  </section>
-
   <footer class="foot">
     <p>© 2026 Idade Conecta · Produto digital</p>
     <p>Dúvidas: <a href="mailto:contato@vovoconectada.com.br">contato@vovoconectada.com.br</a></p>
@@ -337,21 +328,27 @@
     }
   } catch (e) {}
 
-  // UTMs: guarda as que chegaram na URL (vindas do index.html)
+  // UTMs e ids de clique do anúncio: guardados no 1º acesso (localStorage + cookie de 30 dias,
+  // também pelo index.html) e SEMPRE enviados na criação do Pix. É o que faz a UTMify
+  // atribuir a venda ao anúncio certo.
+  var AD_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'ttclid', 'gclid', 'src', 'sck'];
+  function readStoredUtms() {
+    try { var s = localStorage.getItem('ic_utms'); if (s) return JSON.parse(s); } catch (e) {}
+    var m = document.cookie.match(/(?:^|; )ic_utms=([^;]*)/);
+    if (m) { try { return JSON.parse(decodeURIComponent(m[1])); } catch (e) {} }
+    return {};
+  }
   (function () {
-    var params = new URLSearchParams(location.search);
-    var utms = {};
-    params.forEach(function (v, k) { utms[k] = v; });
-    if (Object.keys(utms).length) {
-      try { sessionStorage.setItem('ic_utms', JSON.stringify(utms)); localStorage.setItem('ic_utms', JSON.stringify(utms)); } catch (e) {}
-    }
+    var params = new URLSearchParams(location.search), found = {};
+    AD_KEYS.forEach(function (k) { var v = params.get(k); if (v) found[k] = v.slice(0, 250); });
+    if (!Object.keys(found).length) return;
+    var json = JSON.stringify(found);
+    try { localStorage.setItem('ic_utms', json); } catch (e) {}
+    try { document.cookie = 'ic_utms=' + encodeURIComponent(json) + '; max-age=' + 60 * 60 * 24 * 30 + '; path=/; SameSite=Lax'; } catch (e) {}
   })();
   function getSavedUtms() {
-    var utms = {};
-    new URLSearchParams(location.search).forEach(function (v, k) { utms[k] = v; });
-    if (!Object.keys(utms).length) {
-      try { utms = JSON.parse(sessionStorage.getItem('ic_utms') || localStorage.getItem('ic_utms') || '{}'); } catch (e) {}
-    }
+    var utms = readStoredUtms(), params = new URLSearchParams(location.search);
+    AD_KEYS.forEach(function (k) { var v = params.get(k); if (v) utms[k] = v.slice(0, 250); });
     return utms;
   }
 
@@ -414,7 +411,6 @@
   var pixCodeText = document.getElementById('pix-code-text');
   var btnCopy = document.getElementById('btn-copy-pix-code');
   var copyText = document.getElementById('copy-btn-text');
-  var successCard = document.getElementById('success-screen-card');
 
   var identifier = null, pixCode = '', track = '', pollTimer = null, expiryTimer = null, paidHandled = false;
 
@@ -453,9 +449,10 @@
       identifier = data.identifier;
       pixCode = data.pix_code;
       track = data.track || '';
-      try { sessionStorage.setItem('ic_pix', JSON.stringify({ identifier: identifier, pixCode: pixCode, track: track, email: emailInput.value.trim(), at: Date.now() })); } catch (e) {}
+      var expiresIn = data.expires_in || 60 * 60;
+      try { sessionStorage.setItem('ic_pix', JSON.stringify({ identifier: identifier, pixCode: pixCode, track: track, email: emailInput.value.trim(), expiresAt: Date.now() + expiresIn * 1000 })); } catch (e) {}
 
-      showPix();
+      showPix(expiresIn);
       try { if (typeof fbq === 'function') fbq('track', 'AddPaymentInfo', { value: PRICE, currency: 'BRL', content_name: CONTENT_NAME }); } catch (e) {}
     } catch (err) {
       showError(err.message || 'Erro ao falar com o pagamento. Tente novamente.');
@@ -473,7 +470,7 @@
     document.getElementById('pix-expired').style.display = 'none';
     pixCard.style.display = 'block';
     pixCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    startExpiry(secondsLeft || 15 * 60);
+    startExpiry(secondsLeft || 60 * 60);
     startPolling();
   }
 
@@ -504,7 +501,7 @@
   // ── 4. Verificação do pagamento (api/check-pix.js) ──
   function startPolling() {
     clearInterval(pollTimer);
-    pollTimer = setInterval(checkStatus, 5000);
+    pollTimer = setInterval(checkStatus, 3000);
   }
   async function checkStatus() {
     if (!identifier) return;
@@ -551,46 +548,22 @@
     clearInterval(expiryTimer);
 
     // A Compra NÃO é enviada pelo navegador: o servidor (api/_sale.js) já envia ao Meta,
-    // com os dados do cliente, assim que a LofyPay confirma. Enviar dos dois lados duplicava a venda.
+    // com os dados do cliente, assim que a BravoPay confirma. Enviar dos dois lados duplicava a venda.
     var stored = '';
     try { stored = (JSON.parse(sessionStorage.getItem('ic_pix') || '{}').email) || ''; } catch (e) {}
-    try { sessionStorage.removeItem('ic_pix'); } catch (e) {}
-    document.getElementById('success-email-target').textContent = emailInput.value.trim() || stored || 'seu e-mail';
-    var access = document.getElementById('btn-start-access');
-    if (accessUrl) { access.href = accessUrl; access.hidden = false; }
+    try { sessionStorage.removeItem('ic_pix'); sessionStorage.setItem('ic_buyer_email', emailInput.value.trim() || stored); } catch (e) {}
 
-    pixCard.style.display = 'none';
-    formContainer.style.display = 'none';
-    successCard.style.display = 'block';
-    successCard.focus({ preventScroll: true });
-    successCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    confetti();
-  }
-
-  function confetti() {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var box = document.createElement('div'), colors = ['#1A7F3C', '#F7DC7A', '#C0392B', '#1F4E96', '#FAD7A8'];
-    box.className = 'confetti'; box.setAttribute('aria-hidden', 'true');
-    for (var i = 0; i < 70; i++) {
-      var p = document.createElement('i');
-      p.style.left = Math.random() * 100 + '%';
-      p.style.background = colors[i % colors.length];
-      p.style.setProperty('--x', (Math.random() * 160 - 80) + 'px');
-      p.style.setProperty('--r', (Math.random() * 720 - 360) + 'deg');
-      p.style.animationDelay = Math.random() * .5 + 's';
-      box.appendChild(p);
-    }
-    document.body.appendChild(box);
-    setTimeout(function () { box.remove(); }, 3200);
+    // Vai para a página de obrigado (ela confirma o pagamento no servidor e mostra o acesso)
+    location.replace('/obrigado?id=' + encodeURIComponent(identifier));
   }
 
   // ── 6. Recarregou a página com um Pix em aberto? Retoma de onde parou ──
   try {
     var saved = JSON.parse(sessionStorage.getItem('ic_pix') || 'null');
-    if (saved && saved.identifier && Date.now() - saved.at < 15 * 60 * 1000) {
+    if (saved && saved.identifier && saved.expiresAt && Date.now() < saved.expiresAt) {
       identifier = saved.identifier; pixCode = saved.pixCode; track = saved.track || '';
       if (saved.email) emailInput.value = saved.email;
-      var left = Math.floor((15 * 60 * 1000 - (Date.now() - saved.at)) / 1000);
+      var left = Math.floor((saved.expiresAt - Date.now()) / 1000);
       window.addEventListener('load', function () { showPix(left); checkStatus(); });
     }
   } catch (e) {}

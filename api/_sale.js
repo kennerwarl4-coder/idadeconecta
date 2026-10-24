@@ -1,7 +1,7 @@
 // Registra uma venda confirmada no Meta (API de Conversões) e na UTMify.
 // Chamado por dois caminhos que podem acontecer juntos (cada envio acontece uma única vez):
-//  - api/check-pix.js (o checkout aberto confere o status a cada 5 s);
-//  - api/webhook.js (a LofyPay avisa o pagamento, mesmo que o cliente feche a página).
+//  - api/check-pix.js (o checkout aberto confere o status a cada 3 s);
+//  - api/webhook.js (a BravoPay avisa o pagamento, mesmo que o cliente feche a página).
 // O primeiro caminho que detectar o pagamento envia; o outro é ignorado.
 const { PRODUCT } = require('./_product');
 const { sendMetaPurchaseEvent } = require('./_meta-capi');

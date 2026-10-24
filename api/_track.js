@@ -1,6 +1,7 @@
 // Dados de rastreamento de um pedido (cliente, UTMs, IP, cookies do Meta).
-// O gateway não devolve todos esses dados quando o Pix é pago. Por isso eles viajam
-// num "pacote" criptografado:
+// A BravoPay devolve o cliente e as UTMs na consulta da transação, mas não o IP, o
+// navegador nem os cookies do Meta (_fbp/_fbc), que melhoram a correspondência da Compra.
+// Esses extras viajam num "pacote" criptografado:
 //  - guardado no Redis (para o webhook, quando o cliente paga e fecha a página);
 //  - com o checkout, que reenvia o pacote a cada verificação de status.
 // AES-256-GCM: ninguém lê os dados pessoais (nem em logs) e ninguém consegue alterá-los.
@@ -8,8 +9,8 @@ const crypto = require('crypto');
 const { PRODUCT } = require('./_product');
 
 function key() {
-  const secret = process.env.TRACKING_SECRET || process.env.LOFYPAY_SECRET_KEY || '';
-  if (!secret) throw new Error('TRACKING_SECRET ou LOFYPAY_SECRET_KEY não configurado.');
+  const secret = process.env.TRACKING_SECRET || process.env.BRAVOPAY_API_KEY || '';
+  if (!secret) throw new Error('TRACKING_SECRET ou BRAVOPAY_API_KEY não configurado.');
   return crypto.createHash('sha256').update('idadeconecta-track:' + secret).digest();
 }
 
@@ -33,7 +34,56 @@ function open(token) {
   }
 }
 
+// Parâmetros aceitos pela UTMify
 const TRACKING_KEYS = ['src', 'sck', 'utm_source', 'utm_campaign', 'utm_medium', 'utm_content', 'utm_term'];
+// Parâmetros guardados do anúncio (UTMs + ids de clique do Facebook, TikTok e Google)
+const AD_KEYS = TRACKING_KEYS.concat(['fbclid', 'ttclid', 'gclid']);
+
+function pickAdParams(params) {
+  const out = {};
+  AD_KEYS.forEach(k => {
+    const v = params && params[k];
+    if (v) out[k] = String(v).slice(0, 250);
+  });
+  return out;
+}
+
+// Formato do campo "utm" da BravoPay
+function toBravoUtm(p) {
+  return {
+    source: p.utm_source || null,
+    medium: p.utm_medium || null,
+    campaign: p.utm_campaign || null,
+    content: p.utm_content || null,
+    term: p.utm_term || null,
+    fbclid: p.fbclid || null,
+    ttclid: p.ttclid || null,
+    gclid: p.gclid || null
+  };
+}
+
+/**
+ * Monta os dados da venda a partir da transação da BravoPay (cliente, UTMs, data de criação)
+ * e completa com o pacote do create-pix (IP, navegador, cookies do Meta), se houver.
+ */
+function trackFromTransaction(tx, extra) {
+  const c = tx.customer || {};
+  const t = tx.tracking || {};
+  const base = {
+    n: c.name || null,
+    e: c.email || null,
+    p: c.phone ? String(c.phone).replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, '') : null,
+    d: c.cpf || null,
+    u: {
+      utm_source: t.utm_source || null, utm_medium: t.utm_medium || null, utm_campaign: t.utm_campaign || null,
+      utm_content: t.utm_content || null, utm_term: t.utm_term || null, src: null, sck: null
+    },
+    c: tx.created_at ? utmifyDate(tx.created_at) : null
+  };
+  const x = extra || {};
+  return { ...base, ip: x.ip || null, ua: x.ua || null, fbp: x.fbp || null, fbc: x.fbc || null,
+    u: { ...base.u, ...(x.u || {}) }, c: base.c || x.c || null, n: base.n || x.n, e: base.e || x.e, p: base.p || x.p, d: base.d || x.d };
+}
 
 function pickUtms(utms) {
   const out = {};
@@ -76,7 +126,7 @@ function requestContext(req) {
 async function sendUtmifyOrder({ orderId, status, track, approvedDate = null }) {
   const token = process.env.UTMIFY_API_TOKEN;
   if (!token) {
-    console.warn('[UTMIFY] UTMIFY_API_TOKEN não configurado. Pedido não enviado.');
+    // Sem token: a UTMify é alimentada pela integração nativa da BravoPay (aba Integrações)
     return { success: false, skipped: true };
   }
   if (!track || !track.c) {
@@ -139,4 +189,4 @@ async function sendUtmifyOrder({ orderId, status, track, approvedDate = null }) 
   }
 }
 
-module.exports = { seal, open, pickUtms, utmifyDate, requestContext, sendUtmifyOrder };
+module.exports = { seal, open, pickUtms, pickAdParams, toBravoUtm, trackFromTransaction, utmifyDate, requestContext, sendUtmifyOrder };

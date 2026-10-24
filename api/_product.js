@@ -5,18 +5,26 @@ const PRODUCT = {
   name: 'Idade Conecta: +500 guias ilustrados + 4 bônus',
   shortName: 'Idade Conecta',
   amount: 19.9,
+  amountCents: 1990,
   currency: 'BRL'
 };
 
-// Status da LofyPay (endpoint /status). Só PAID_OUT é pago.
+// ▼▼▼ ID DO PRODUTO NA BRAVOPAY ▼▼▼
+// Copie em https://bravopay.club/dashboard/produtos e cole na variável BRAVOPAY_PRODUCT_ID
+// da Vercel (ou entre as aspas abaixo). Necessário para a venda aparecer com o nome
+// certo na UTMify; sem ele a BravoPay usa um produto interno "fantasma".
+const BRAVOPAY_PRODUCT_ID = process.env.BRAVOPAY_PRODUCT_ID || '';
+// ▲▲▲
+
+// Status da BravoPay: PENDING, PAID, EXPIRED, REFUNDED, FAILED, CANCELED. Só PAID é pago.
 function isPaid(status) {
-  return String(status || '').toUpperCase() === 'PAID_OUT';
+  return String(status || '').toUpperCase() === 'PAID';
 }
 
 // Status simples para o checkout
 function normalizeStatus(status) {
   const s = String(status || '').toUpperCase();
-  return ({ PAID_OUT: 'paid', WAITING_FOR_APPROVAL: 'pending', EXPIRED: 'expired', FAILED: 'failed', REFUNDED: 'refunded' })[s] || 'pending';
+  return ({ PAID: 'paid', PENDING: 'pending', EXPIRED: 'expired', FAILED: 'failed', CANCELED: 'canceled', REFUNDED: 'refunded' })[s] || 'pending';
 }
 
 // Espera uma promessa por no máximo `ms` (webhooks precisam responder rápido)
@@ -41,4 +49,4 @@ function parseBody(req) {
   return body || {};
 }
 
-module.exports = { PRODUCT, isPaid, normalizeStatus, withTimeout, setCorsHeaders, parseBody };
+module.exports = { PRODUCT, BRAVOPAY_PRODUCT_ID, isPaid, normalizeStatus, withTimeout, setCorsHeaders, parseBody };

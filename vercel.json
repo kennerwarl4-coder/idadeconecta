@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    {
+      "source": "/obrigado",
+      "destination": "/obrigado.html"
+    }
+  ],
   "headers": [
     {
       "source": "/assets/fonts/(.*)",

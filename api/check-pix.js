@@ -1,23 +1,23 @@
-// O checkout aberto pergunta aqui, a cada 5 s, se o Pix já foi pago.
-// Fonte da verdade: o /status da LofyPay (só PAID_OUT é pago).
-// Limite da LofyPay: 30 consultas/min por IP. Como todos os clientes passam pelo nosso
-// servidor, cada Pix consulta a LofyPay no máximo a cada 10 s, e um Pix já confirmado
-// pelo webhook nem consulta (lê a marca "pago" guardada no Redis).
-const { consultarStatus } = require('./_lofypay');
+// O checkout pergunta aqui, a cada 3 s, se o Pix já foi pago; a página /obrigado
+// também usa esta rota para mostrar o link de acesso.
+// Fonte da verdade: GET /transactions/{id} da BravoPay (só PAID é pago).
+// Cada Pix consulta a BravoPay no máximo a cada 3 s, e um Pix já confirmado
+// (pelo webhook ou por uma consulta anterior) nem consulta: lê a marca "pago" do Redis.
+const { consultarTransacao } = require('./_bravopay');
 const { isPaid, normalizeStatus, withTimeout, setCorsHeaders } = require('./_product');
-const { open } = require('./_track');
+const { open, trackFromTransaction } = require('./_track');
 const store = require('./_store');
 const { registerSale } = require('./_sale');
 
 const lastCheck = new Map();
-const MIN_INTERVAL_MS = 10 * 1000;
+const MIN_INTERVAL_MS = 3000;
 
-async function canQuery(identifier) {
+function canQuery(identifier) {
   const now = Date.now();
   if (now - (lastCheck.get(identifier) || 0) < MIN_INTERVAL_MS) return false;
   lastCheck.set(identifier, now);
   if (lastCheck.size > 5000) lastCheck.clear();
-  return store.once('st:' + identifier, Math.ceil(MIN_INTERVAL_MS / 1000));
+  return true;
 }
 
 module.exports = async function handler(req, res) {
@@ -30,33 +30,36 @@ module.exports = async function handler(req, res) {
   try {
     const identifier = String(req.query?.identifier || req.body?.identifier || '');
 
-    if (!identifier || identifier.length > 100) {
+    if (!identifier || identifier.length > 100 || !/^[\w-]+$/.test(identifier)) {
       return res.status(400).json({
         success: false,
         message: 'Parâmetro identifier é obrigatório.'
       });
     }
 
-    let lofyStatus = null;
+    let status = 'pending';
+    let paid = false;
+
     if (await store.load('paid:' + identifier)) {
-      lofyStatus = 'PAID_OUT';
-    } else if (await canQuery(identifier)) {
+      status = 'paid';
+      paid = true;
+    } else if (canQuery(identifier)) {
+      let tx = null;
       try {
-        lofyStatus = await consultarStatus(identifier);
+        tx = await consultarTransacao(identifier);
       } catch (err) {
         if (err.status !== 429) throw err;   // limite: tenta na próxima rodada
       }
-    }
-
-    const status = lofyStatus ? normalizeStatus(lofyStatus) : 'pending';
-    const paid = isPaid(lofyStatus);
-
-    // Pagamento confirmado pela LofyPay: registra a venda no Meta e na UTMify (uma vez só).
-    // O pacote "t" foi devolvido pelo create-pix e traz os dados do cliente e as UTMs.
-    if (paid) {
-      await store.save('paid:' + identifier, '1', 7 * 24 * 60 * 60);
-      const track = open(req.query?.t || req.body?.t) || open(await store.load('track:' + identifier));
-      await withTimeout(registerSale({ identifier, track, req, source: 'status_polling' }), 3500);
+      if (tx) {
+        status = normalizeStatus(tx.status);
+        paid = isPaid(tx.status);
+        if (paid) {
+          // Pagamento confirmado pela BravoPay: registra a venda no Meta (e na UTMify própria, se ligada).
+          await store.save('paid:' + identifier, '1', 7 * 24 * 60 * 60);
+          const extra = open(req.query?.t || req.body?.t) || open(await store.load('track:' + identifier));
+          await withTimeout(registerSale({ identifier, track: trackFromTransaction(tx, extra), req, source: 'status_polling' }), 3500);
+        }
+      }
     }
 
     // Devolve só o necessário: nunca os dados pessoais da transação

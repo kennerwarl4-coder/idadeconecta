@@ -271,6 +271,18 @@
     });
   }
 
+  /* ---------- Guarda as UTMs e ids de clique do anúncio (1º acesso) ---------- */
+  // localStorage + cookie de 30 dias; o checkout envia tudo na criação do Pix (UTMify)
+  (function () {
+    var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'ttclid', 'gclid', 'src', 'sck'];
+    var params = new URLSearchParams(location.search), found = {};
+    keys.forEach(function (k) { var v = params.get(k); if (v) found[k] = v.slice(0, 250); });
+    if (!Object.keys(found).length) return;
+    var json = JSON.stringify(found);
+    try { localStorage.setItem('ic_utms', json); } catch (e) {}
+    try { document.cookie = 'ic_utms=' + encodeURIComponent(json) + '; max-age=' + 60 * 60 * 24 * 30 + '; path=/; SameSite=Lax'; } catch (e) {}
+  })();
+
   /* ---------- Checkout: leva junto as UTMs do anúncio ---------- */
   if (location.search) {
     Array.prototype.forEach.call(document.querySelectorAll('a[href="checkout.html"]'), function (link) {

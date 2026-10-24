@@ -1,13 +1,10 @@
-// Cria a cobrança Pix na LofyPay e devolve ao navegador só o necessário
+// Cria a cobrança Pix na BravoPay e devolve ao navegador só o necessário
 // (copia e cola, identificador, valor e validade). A chave nunca sai do servidor.
 const crypto = require('crypto');
-const { criarCobrancaPix } = require('./_lofypay');
-const { PRODUCT, setCorsHeaders, parseBody, withTimeout } = require('./_product');
-const { seal, pickUtms, utmifyDate, requestContext, sendUtmifyOrder } = require('./_track');
+const { criarCobrancaPix } = require('./_bravopay');
+const { PRODUCT, BRAVOPAY_PRODUCT_ID, setCorsHeaders, parseBody, withTimeout } = require('./_product');
+const { seal, pickAdParams, toBravoUtm, utmifyDate, requestContext, sendUtmifyOrder } = require('./_track');
 const store = require('./_store');
-
-// Validade do Pix (o checkout mostra a mesma contagem)
-const EXPIRATION_SECONDS = 15 * 60;
 
 module.exports = async function handler(req, res) {
   setCorsHeaders(res);
@@ -63,50 +60,49 @@ module.exports = async function handler(req, res) {
     const client = {
       name: name.trim(),
       email: email.trim().toLowerCase(),
-      document: cleanCpf,
+      cpf: cleanCpf,
       phone: cleanPhone
     };
 
-    // Pacote criptografado com tudo que a venda precisa quando o pagamento for confirmado
+    // UTMs e ids de clique guardados pelo navegador desde o anúncio
+    const adParams = pickAdParams(utms || {});
+
+    const pix = await criarCobrancaPix({
+      amountCents: PRODUCT.amountCents,
+      customer: { name: client.name, email: client.email, phone: '55' + client.phone, cpf: client.cpf },
+      externalReference: 'IC-' + crypto.randomUUID(),
+      utm: toBravoUtm(adParams),
+      productId: BRAVOPAY_PRODUCT_ID || undefined
+    });
+
+    // Pacote criptografado com o que a BravoPay não guarda (IP, navegador, cookies do Meta).
+    // createdAt = data da transação na BravoPay, a mesma que o webhook vai ler depois.
     const ctx = requestContext(req);
     const track = {
-      n: client.name, e: client.email, p: client.phone, d: client.document,
+      n: client.name, e: client.email, p: client.phone, d: client.cpf,
       ip: ctx.ip, ua: ctx.ua, fbp: ctx.fbp, fbc: ctx.fbc,
-      u: pickUtms(utms || {}),
-      c: utmifyDate(Date.now())
+      u: adParams,
+      c: utmifyDate(pix.createdAt)
     };
     const trackToken = seal(track);
 
-    // A LofyPay avisa o pagamento nesta URL (precisa ser HTTPS)
-    const host = req.headers['x-forwarded-host'] || req.headers.host;
-    const base = process.env.SITE_URL ? process.env.SITE_URL.replace(/\/$/, '') : (host ? `https://${host}` : '');
-    const notificationUrl = base.startsWith('https://') ? `${base}/api/webhook` : undefined;
-
-    // Id do pedido no nosso sistema: volta no webhook e evita cobrança duplicada em retentativa
-    const externalReference = 'IC-' + crypto.randomUUID();
-
-    const pix = await criarCobrancaPix({
-      amount: PRODUCT.amount,
-      externalReference,
-      client: { name: client.name, document: client.document, email: client.email },
-      notificationUrl,
-      expiration: EXPIRATION_SECONDS
-    });
-
-    // Guarda o pacote para o webhook (caso o cliente pague e feche a página) e
-    // registra o pedido como "aguardando pagamento" na UTMify
+    // Guarda o pacote para o webhook e, se a UTMify própria estiver ligada, avisa "aguardando pagamento"
     await withTimeout(Promise.all([
-      store.save('track:' + pix.idTransaction, trackToken),
-      sendUtmifyOrder({ orderId: pix.idTransaction, status: 'waiting_payment', track })
+      store.save('track:' + pix.id, trackToken),
+      sendUtmifyOrder({ orderId: pix.id, status: 'waiting_payment', track })
     ]), 2500);
+
+    const expiresIn = pix.expiresAt
+      ? Math.max(60, Math.floor((new Date(pix.expiresAt).getTime() - Date.now()) / 1000))
+      : 60 * 60;
 
     return res.status(200).json({
       success: true,
       message: 'Cobrança Pix gerada com sucesso!',
-      pix_code: pix.paymentCode,
-      identifier: pix.idTransaction,
+      pix_code: pix.copyPaste,
+      identifier: pix.id,
       amount: PRODUCT.amount,
-      expires_in: EXPIRATION_SECONDS,
+      expires_in: expiresIn,
       track: trackToken
     });
   } catch (error) {
