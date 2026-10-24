@@ -92,6 +92,8 @@
 
   .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
   .top img { height: 40px; width: auto; }
+  .banner { display: block; margin-bottom: 14px; }
+  .banner img { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); box-shadow: 0 10px 18px -16px rgba(43,29,20,.5); }
   .safe { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: #fff; border: 1px solid var(--line); font-size: .9rem; font-weight: 700; color: var(--ink-soft); }
   .safe svg { width: 16px; height: 16px; color: var(--green); flex: none; }
 
@@ -214,6 +216,12 @@
     <a href="index.html" aria-label="Idade Conecta, voltar para a página do produto"><picture><source srcset="assets/logo-440.webp" type="image/webp"><img src="assets/logo-440.png" alt="Idade Conecta" width="440" height="110"></picture></a>
     <span class="safe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 3v6c0 5.5-3.5 9.5-8 11-4.5-1.5-8-5.5-8-11V5z" fill="currentColor"/><path d="M8.5 12l2.5 2.5 4.5-5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Compra segura</span>
   </header>
+
+  <!-- Banner (original em assets/idade_conecta_pagamento_persuasivo_1.png) -->
+  <picture class="banner">
+    <source srcset="assets/banner-checkout-600.webp 600w, assets/banner-checkout-1120.webp 1120w" sizes="(min-width: 592px) 560px, calc(100vw - 32px)" type="image/webp">
+    <img src="assets/banner-checkout-1120.jpg" alt="Pague com segurança e comece ainda hoje. Seus guias chegam por e-mail assim que o pagamento for aprovado. Acesso imediato, garantia de 7 dias, Android e iPhone." width="1120" height="373" fetchpriority="high" decoding="async">
+  </picture>
 
   <!-- Resumo do pedido -->
   <section class="card summary" aria-label="Resumo do pedido">
