@@ -582,3 +582,72 @@ main section:not(.hero):not(.closing) h2:not(.offer__head)::after {
   .faq h2::after { margin-inline: auto; }
   .pain--dark .big-p { font-size: 1.9rem; }
 }
+
+/* ==========================================================
+   Low ticket 2: faixa no topo, +120, selo de preço, botões em 2 linhas, INCLUSO
+   ========================================================== */
+
+/* faixa no topo */
+.promo-bar {
+  display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 16px; padding: 7px 12px;
+  background: var(--green-deep); color: #fff; font-size: .82rem; font-weight: 700; letter-spacing: .02em; line-height: 1.3;
+}
+.promo-bar span { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.promo-bar svg { width: 14px; height: 14px; color: var(--butter); flex: none; }
+.promo-bar__opt { display: none !important; }
+@media (min-width: 400px) { .promo-bar__opt { display: inline-flex !important; } }
+.topbar { padding-top: 8px; }
+
+/* +120 */
+.hero__plus { font-size: .62em; vertical-align: .32em; margin-right: .02em; letter-spacing: 0; }
+
+/* selo de preço sobre o leque */
+.fan-wrap { position: relative; max-width: 400px; margin: 0 auto; }
+.price-sticker {
+  position: absolute; z-index: 5; right: -6px; bottom: -14px; width: 86px; height: 86px; border-radius: 50%;
+  display: grid; place-content: center; text-align: center; gap: 1px;
+  background: var(--tomato); color: #fff; transform: rotate(10deg);
+  box-shadow: 0 0 0 4px #fff, 0 10px 18px -8px rgba(43,29,20,.6);
+}
+.price-sticker::before { content: ""; position: absolute; inset: 5px; border-radius: 50%; border: 1.5px dashed rgba(255,255,255,.65); }
+.price-sticker b { font-family: var(--f-head); font-weight: 900; font-size: 1.45rem; line-height: 1; letter-spacing: -.02em; }
+.price-sticker span { font-size: .62rem; font-weight: 700; line-height: 1.1; text-transform: uppercase; letter-spacing: .04em; }
+
+/* botões em duas linhas */
+.btn-cta__txt { display: grid; justify-items: center; gap: 3px; }
+.btn-cta__txt small { font-size: .74rem; font-weight: 700; letter-spacing: .03em; text-transform: none; opacity: .92; }
+.btn-cta { padding-block: 12px; }
+.btn-cta svg { width: 26px; }
+
+/* oferta: INCLUSO / BÔNUS */
+.offer__item { grid-template-columns: 50px 1fr auto; }
+.offer__item::after { content: none; }
+.tag { display: inline-block; font-style: normal; font-family: var(--f-body); font-weight: 700; font-size: .66rem; letter-spacing: .07em; line-height: 1; padding: 5px 7px; border-radius: 999px; white-space: nowrap; }
+.tag--in { background: #E3F3E6; color: var(--green-deep); border: 1px solid #B9DFC1; }
+.tag--bonus { display: table; margin-bottom: 4px; background: var(--tomato-ink); color: #fff; }
+.offer__item span { min-width: 0; }
+
+/* Pix e compra segura */
+.pay-safe { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 16px; margin-top: 12px; font-size: .9rem; font-weight: 700; color: var(--ink-soft); }
+.pay-safe span { display: inline-flex; align-items: center; gap: 6px; }
+.pay-safe svg { width: 18px; height: 18px; color: var(--ink-soft); }
+.pay-safe__pix svg { width: 22px; height: 22px; }
+
+@media (min-width: 760px) {
+  .fan-wrap { max-width: 460px; margin: 0; }
+  .price-sticker { right: -22px; bottom: -18px; width: 98px; height: 98px; }
+  .price-sticker b { font-size: 1.65rem; }
+  .promo-bar { font-size: .9rem; gap: 4px 28px; }
+}
+
+/* celulares pequenos: compacta o topo para o botão caber na primeira tela */
+@media (max-width: 380px) {
+  .topbar { padding-top: 4px; }
+  .brand__logo { height: 40px; }
+  .hero__num { font-size: 3.9rem; }
+  .hero__title { font-size: 1.75rem; }
+  .lead { margin-top: 8px; font-size: 1.05rem; }
+  .fan { margin-top: 12px; }
+  .fan__card.pcard { padding-top: 24px; }
+  .fan__card .pcard__title { font-size: .92rem; }
+}

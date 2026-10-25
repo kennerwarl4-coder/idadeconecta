@@ -85,6 +85,12 @@
   </defs>
 </svg>
 
+<div class="promo-bar" role="note">
+  <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z" fill="currentColor"/></svg>Acesso imediato</span>
+  <span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>Pagamento único</span>
+  <span class="promo-bar__opt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 3v6c0 5.5-3.5 9.5-8 11-4.5-1.5-8-5.5-8-11V5z" fill="currentColor"/><path d="M8.5 12l2.5 2.5 4.5-5" fill="none" stroke="#0E5526" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Garantia de 7 dias</span>
+</div>
+
 <header class="topbar">
   <div class="wrap topbar__in">
     <a class="brand" href="#topo" aria-label="Idade Conecta, voltar ao topo"><picture><source srcset="assets/logo-440.webp" type="image/webp"><img class="brand__logo" src="assets/logo-440.png" alt="Idade Conecta" width="440" height="110" fetchpriority="high"></picture></a>
@@ -99,11 +105,13 @@
     <div class="hero__copy">
       <p class="eyebrow eyebrow--desk"><span class="eyebrow__dot" aria-hidden="true"></span>Para quem tem 60+</p>
       <h1 class="hero__title">
-        <span class="hero__num">120</span>
+        <span class="hero__num"><span class="hero__plus">+</span>120</span>
         <span class="hl">cartões</span> que ensinam a <span class="u">usar o celular</span>
       </h1>
       <p class="lead">Imprima, deixe ao lado do celular e siga o desenho. Letra grande, um passo por vez.</p>
 
+      <div class="fan-wrap">
+      <p class="price-sticker" aria-label="R$ 37, pagamento único"><b>R$ 37</b><span>pagamento<br>único</span></p>
       <div class="fan" role="group" aria-label="Exemplos de cartões">
         <figure class="fan__card pcard" style="--r:-6deg">
           <span class="pcard__n" aria-hidden="true">01</span>
@@ -160,9 +168,9 @@
           </svg>
         </figure>
       </div>
+      </div>
 
-      <a class="btn-cta btn-cta--pulse" id="heroCta" href="#oferta-card"><span>QUERO OS 120 CARTÕES</span> <svg aria-hidden="true" viewBox="0 0 32 20"><path d="M2 11c8-1 17-1 26-1M20 3c3 3 6 5 8 7-3 2-5 4-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      <p class="hero-price"><b>R$ 37</b><span>pagamento único</span></p>
+      <a class="btn-cta btn-cta--pulse" id="heroCta" href="#oferta-card"><span class="btn-cta__txt">QUERO OS 120 CARTÕES<small>Acesso imediato no e-mail</small></span> <svg aria-hidden="true" viewBox="0 0 32 20"><path d="M2 11c8-1 17-1 26-1M20 3c3 3 6 5 8 7-3 2-5 4-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <ul class="trust" role="list">
         <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z" fill="currentColor"/></svg>Acesso imediato</li>
         <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 3v6c0 5.5-3.5 9.5-8 11-4.5-1.5-8-5.5-8-11V5z" fill="currentColor"/><path d="M8.5 12l2.5 2.5 4.5-5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Garantia de 7 dias</li>
@@ -394,7 +402,7 @@
       <li class="toc__shield"><span class="toc__n" aria-hidden="true">10</span><span><b>Golpes</b></span></li>
     </ol>
     <div class="mid-cta">
-      <a class="btn-cta" href="checkout.html"><span>QUERO OS 120 CARTÕES</span> <svg aria-hidden="true" viewBox="0 0 32 20"><path d="M2 11c8-1 17-1 26-1M20 3c3 3 6 5 8 7-3 2-5 4-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a class="btn-cta" href="checkout.html"><span class="btn-cta__txt">QUERO OS 120 CARTÕES<small>Acesso imediato no e-mail</small></span> <svg aria-hidden="true" viewBox="0 0 32 20"><path d="M2 11c8-1 17-1 26-1M20 3c3 3 6 5 8 7-3 2-5 4-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <p class="price-line"><b>R$ 37</b><span>pagamento único</span></p>
     </div>
   </div>
@@ -604,7 +612,7 @@
   </ul>
 
   <div class="wrap mid-cta">
-    <a class="btn-cta" href="checkout.html"><span>QUERO OS 120 CARTÕES</span> <svg aria-hidden="true" viewBox="0 0 32 20"><path d="M2 11c8-1 17-1 26-1M20 3c3 3 6 5 8 7-3 2-5 4-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a class="btn-cta" href="checkout.html"><span class="btn-cta__txt">QUERO OS 120 CARTÕES<small>Acesso imediato no e-mail</small></span> <svg aria-hidden="true" viewBox="0 0 32 20"><path d="M2 11c8-1 17-1 26-1M20 3c3 3 6 5 8 7-3 2-5 4-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     <p class="price-line"><b>R$ 37</b><span>pagamento único</span></p>
   </div>
 </section>
@@ -616,17 +624,17 @@
       <h2 id="offer-t" class="offer__head">Tudo que você recebe</h2>
       <div class="offer__body">
         <ul class="offer__items" role="list">
-          <li class="offer__item offer__item--main"><img src="assets/capa-120.webp" alt="" width="120" height="120" loading="lazy" decoding="async"><span>120 cartões ilustrados para imprimir</span></li>
-          <li class="offer__item"><img src="assets/bonus-1-mini.webp" alt="" width="160" height="213" loading="lazy" decoding="async"><span><b>Bônus:</b> Configuração em 15 minutos</span></li>
-          <li class="offer__item"><img src="assets/bonus-3-mini.webp" alt="" width="160" height="213" loading="lazy" decoding="async"><span><b>Bônus:</b> Ficha de contatos de emergência</span></li>
-          <li class="offer__item"><img src="assets/bonus-4-mini.webp" alt="" width="160" height="213" loading="lazy" decoding="async"><span><b>Bônus:</b> Folha de missões para treinar</span></li>
+          <li class="offer__item offer__item--main"><img src="assets/capa-120.webp" alt="" width="120" height="120" loading="lazy" decoding="async"><span>120 cartões ilustrados para imprimir</span><em class="tag tag--in">INCLUSO</em></li>
+          <li class="offer__item"><img src="assets/bonus-1-mini.webp" alt="" width="160" height="213" loading="lazy" decoding="async"><span><em class="tag tag--bonus">BÔNUS</em>Configuração em 15 minutos</span><em class="tag tag--in">INCLUSO</em></li>
+          <li class="offer__item"><img src="assets/bonus-3-mini.webp" alt="" width="160" height="213" loading="lazy" decoding="async"><span><em class="tag tag--bonus">BÔNUS</em>Ficha de contatos de emergência</span><em class="tag tag--in">INCLUSO</em></li>
+          <li class="offer__item"><img src="assets/bonus-4-mini.webp" alt="" width="160" height="213" loading="lazy" decoding="async"><span><em class="tag tag--bonus">BÔNUS</em>Folha de missões para treinar</span><em class="tag tag--in">INCLUSO</em></li>
         </ul>
         <div class="offer__price">
           <p class="offer__value">R$ 37</p>
           <p class="offer__terms"><span class="nw">pagamento único</span> · <span class="nw">sem mensalidade</span></p>
         </div>
-        <a class="btn-cta btn-cta--wide btn-cta--pulse" href="checkout.html"><span>QUERO OS 120 CARTÕES</span> <svg aria-hidden="true" viewBox="0 0 32 20"><path d="M2 11c8-1 17-1 26-1M20 3c3 3 6 5 8 7-3 2-5 4-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        <p class="micro">Acesso imediato no e-mail</p>
+        <a class="btn-cta btn-cta--wide btn-cta--pulse" href="checkout.html"><span class="btn-cta__txt">QUERO OS 120 CARTÕES<small>Acesso imediato no e-mail</small></span> <svg aria-hidden="true" viewBox="0 0 32 20"><path d="M2 11c8-1 17-1 26-1M20 3c3 3 6 5 8 7-3 2-5 4-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <p class="pay-safe"><span class="pay-safe__pix"><svg viewBox="0 0 48 48" aria-hidden="true"><g fill="#32BCAD"><path d="M24 6.5l6.6 6.6a5 5 0 0 0-3.6 1.5L24 17.6l-3-3a5 5 0 0 0-3.6-1.5z"/><path d="M24 41.5l-6.6-6.6a5 5 0 0 0 3.6-1.5l3-3 3 3a5 5 0 0 0 3.6 1.5z"/><path d="M13 15.3h4.4a3 3 0 0 1 2.2.9l3 3a2 2 0 0 0 2.8 0l3-3a3 3 0 0 1 2.2-.9H35l6.5 6.5a3 3 0 0 1 0 4.4L35 32.7h-4.4a3 3 0 0 1-2.2-.9l-3-3a2 2 0 0 0-2.8 0l-3 3a3 3 0 0 1-2.2.9H13l-6.5-6.5a3 3 0 0 1 0-4.4z"/></g></svg>Pagamento via Pix</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>Compra segura</span></p>
         <ul class="trust trust--offer" role="list">
         <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z" fill="currentColor"/></svg>Acesso imediato</li>
         <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 3v6c0 5.5-3.5 9.5-8 11-4.5-1.5-8-5.5-8-11V5z" fill="currentColor"/><path d="M8.5 12l2.5 2.5 4.5-5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Garantia de 7 dias</li>
@@ -683,7 +691,7 @@
 <section class="closing" id="fim" aria-labelledby="fim-t">
   <div class="wrap closing__in">
     <h2 id="fim-t" class="closing__title">Na próxima dúvida, é só olhar o cartão.</h2>
-    <a class="btn-cta btn-cta--wide" id="finalCta" href="checkout.html"><span>QUERO OS 120 CARTÕES</span> <svg aria-hidden="true" viewBox="0 0 32 20"><path d="M2 11c8-1 17-1 26-1M20 3c3 3 6 5 8 7-3 2-5 4-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a class="btn-cta btn-cta--wide" id="finalCta" href="checkout.html"><span class="btn-cta__txt">QUERO OS 120 CARTÕES<small>Acesso imediato no e-mail</small></span> <svg aria-hidden="true" viewBox="0 0 32 20"><path d="M2 11c8-1 17-1 26-1M20 3c3 3 6 5 8 7-3 2-5 4-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     <p class="price-line"><b>R$ 37</b><span>pagamento único</span><span>garantia de 7 dias</span></p>
   </div>
 </section>
