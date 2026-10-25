@@ -1,11 +1,11 @@
 // Dados da oferta usados por todas as rotas da API.
 // O preço é definido só aqui, no servidor: o navegador nunca escolhe o valor cobrado.
 const PRODUCT = {
-  id: 'idade-conecta-500-guias',
-  name: 'Idade Conecta: +500 guias ilustrados + 4 bônus',
+  id: 'idade-conecta-120-cartoes',
+  name: 'Idade Conecta: 120 cartões ilustrados + 3 bônus',
   shortName: 'Idade Conecta',
-  amount: 19.9,
-  amountCents: 1990,
+  amount: 37,
+  amountCents: 3700,
   currency: 'BRL'
 };
 

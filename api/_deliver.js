@@ -30,9 +30,9 @@ async function sendAccessEmail({ identifier, name, email }) {
   <div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;color:#2B1D14;font-size:18px;line-height:1.55">
     <h1 style="font-size:26px;margin:0 0 12px">Olá, ${firstName}! Seu acesso chegou 🎉</h1>
     <p>Seu pagamento do <b>${escapeHtml(PRODUCT.name)}</b> foi confirmado.</p>
-    <p>Toque no botão abaixo para abrir os guias e os 4 bônus. Você pode baixar, imprimir e guardar.</p>
+    <p>Toque no botão abaixo para baixar os 120 cartões e os 3 bônus. É só imprimir e deixar ao lado do celular.</p>
     <p style="margin:28px 0">
-      <a href="${url}" style="background:#1A7F3C;color:#fff;text-decoration:none;font-weight:bold;padding:16px 26px;border-radius:12px;display:inline-block">ACESSAR MEUS GUIAS</a>
+      <a href="${url}" style="background:#1A7F3C;color:#fff;text-decoration:none;font-weight:bold;padding:16px 26px;border-radius:12px;display:inline-block">BAIXAR MEUS CARTÕES</a>
     </p>
     <p style="font-size:15px;color:#5A4232">Se o botão não abrir, copie este endereço: <br>${url}</p>
     ${support ? `<p style="font-size:15px;color:#5A4232">Dúvidas? Responda este e-mail ou escreva para ${support}.</p>` : ''}

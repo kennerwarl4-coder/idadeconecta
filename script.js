@@ -68,7 +68,7 @@
       3: 'Está gravando! Fale à vontade e <strong>solte o dedo</strong> para enviar.',
       4: 'Pronto! A sua neta recebeu.'
     };
-    var END = '<small>Viu? É assim que cada guia funciona. E são mais de 500.</small>';
+    var END = '<small>Viu? É assim que cada cartão ensina. E são 120.</small>';
 
     function show(n) {
       step = n;

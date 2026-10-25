@@ -225,12 +225,12 @@
 
   <!-- Resumo do pedido -->
   <section class="card summary" aria-label="Resumo do pedido">
-    <div class="summary__thumb"><img src="assets/capa-120.webp" alt="Capa do guia Idade Conecta" width="120" height="120"></div>
+    <div class="summary__thumb"><img src="assets/capa-120.webp" alt="Capa do Idade Conecta" width="120" height="120"></div>
     <div class="summary__info">
-      <h1 class="summary__name">Idade Conecta – +500 Guias Ilustrados</h1>
+      <h1 class="summary__name">Idade Conecta – 120 Cartões Ilustrados</h1>
       <span class="summary__badge">Acesso Imediato</span>
     </div>
-    <p class="summary__price"><b>R$ 19,90</b></p>
+    <p class="summary__price"><b>R$ 37</b></p>
   </section>
 
   <!-- Formulário -->
@@ -246,7 +246,7 @@
         <div class="field">
           <label for="lead-email">E-mail para receber o acesso</label>
           <input type="email" id="lead-email" placeholder="Ex.: maria@gmail.com" autocomplete="email" inputmode="email" required aria-describedby="hint-email err-email">
-          <span class="hint" id="hint-email">Confira com atenção: os guias chegam neste e-mail.</span>
+          <span class="hint" id="hint-email">Confira com atenção: os cartões chegam neste e-mail.</span>
           <span class="err" id="err-email" role="alert">Esse e-mail parece incompleto. Confira, por favor.</span>
         </div>
         <div class="field">
@@ -273,7 +273,7 @@
 
     <button type="button" id="btn-generate-pix" class="btn">
       <span class="spinner" aria-hidden="true"></span>
-      <span class="btn-text">GERAR PIX DE R$ 19,90</span>
+      <span class="btn-text">GERAR PIX DE R$ 37</span>
     </button>
 
     <div class="trust">
@@ -295,7 +295,7 @@
       <span class="expires">Válido por <span id="pix-timer-countdown">15:00</span></span>
     </div>
     <div class="pix-body">
-      <p class="pix-amount">Valor: <b>R$ 19,90</b></p>
+      <p class="pix-amount">Valor: <b>R$ 37,00</b></p>
       <div class="qr" id="qr-code-box" aria-label="QR Code do Pix"></div>
       <p class="pix-code" id="pix-code-text" title="Código Pix copia e cola">Carregando código…</p>
       <button type="button" class="btn" id="btn-copy-pix-code"><span id="copy-btn-text">COPIAR CÓDIGO PIX</span></button>
@@ -304,7 +304,7 @@
         <ol>
           <li>Toque em <b style="display:inline;font-family:inherit">Copiar código Pix</b>.</li>
           <li>Abra o app do seu banco e entre em <b style="display:inline;font-family:inherit">Pix &gt; Copia e Cola</b>.</li>
-          <li>Cole o código, confira o valor de R$ 19,90 e confirme.</li>
+          <li>Cole o código, confira o valor de R$ 37,00 e confirme.</li>
           <li>Pronto! Esta tela muda sozinha quando o pagamento cair.</li>
         </ol>
       </div>
@@ -325,8 +325,8 @@
 (function () {
   'use strict';
 
-  var PRICE = 19.90;
-  var CONTENT_NAME = 'Idade Conecta: +500 guias ilustrados + 4 bônus';
+  var PRICE = 37;
+  var CONTENT_NAME = 'Idade Conecta: 120 cartões ilustrados + 3 bônus';
 
   // ── 0. Pixel: InitiateCheckout uma vez por sessão ──
   try {
@@ -467,7 +467,7 @@
     } finally {
       btnGenerate.disabled = false;
       btnGenerate.classList.remove('loading');
-      btnText.textContent = 'GERAR PIX DE R$ 19,90';
+      btnText.textContent = 'GERAR PIX DE R$ 37';
     }
   });
 

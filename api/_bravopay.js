@@ -45,7 +45,7 @@ async function call(method, path, body) {
 /**
  * Cria a cobrança Pix.
  * @param {Object} p
- * @param {number} p.amountCents - valor em CENTAVOS (ex.: 1990 = R$ 19,90)
+ * @param {number} p.amountCents - valor em CENTAVOS (ex.: 3700 = R$ 37,00)
  * @param {Object} p.customer - { name, email, phone (55 + DDD + número), cpf (só dígitos) }
  * @param {string} p.externalReference - id do pedido no nosso sistema
  * @param {Object} [p.utm] - { source, medium, campaign, content, term, fbclid, ttclid, gclid }
