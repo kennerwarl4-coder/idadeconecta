@@ -21,7 +21,8 @@
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23FBF4E4'/%3E%3Cpath d='M16 27S4 19.5 4 11.5A6 6 0 0 1 16 9a6 6 0 0 1 12 2.5C28 19.5 16 27 16 27z' fill='%23C0392B'/%3E%3C/svg%3E">
 
-<!-- Meta Pixel + UTMify: carregam depois que a página aparece (não atrasam a primeira tela).
+<!-- Meta Pixel + UTMify: carregam no primeiro toque/rolagem ou 3 s depois da página pronta
+     (são metade do peso da página e não podem atrasar a primeira tela).
      Os eventos chamados antes disso ficam na fila e são enviados assim que o Pixel carrega. -->
 <script>
   (function (w, d) {
@@ -36,7 +37,7 @@
       add('https://cdn.utmify.com.br/scripts/utms/latest.js', { 'data-utmify-prevent-xcod-sck': '', 'data-utmify-prevent-subids': '' });
     }
     ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (e) { w.addEventListener(e, load, { once: true, passive: true }); });
-    w.addEventListener('load', function () { (w.requestIdleCallback || function (f) { setTimeout(f, 1200); })(load, { timeout: 2500 }); });
+    w.addEventListener('load', function () { setTimeout(function () { (w.requestIdleCallback || function (f) { setTimeout(f, 0); })(load, { timeout: 1000 }); }, 3000); });
   })(window, document);
   fbq('init', '2001062227476766');
   fbq('track', 'PageView');

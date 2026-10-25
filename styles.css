@@ -145,7 +145,6 @@ h2 { font-size: clamp(1.9rem, 1.4rem + 2.2vw, 2.9rem); margin-bottom: 16px; }
 .topbar + main .hero { padding-top: 14px; }
 .topbar__in { display: flex; align-items: center; justify-content: center; }
 .brand { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; text-decoration: none; color: var(--ink); font-family: var(--f-display); font-weight: 800; font-size: 1.3rem; font-variation-settings: "SOFT" 100; }
-.brand em { font-style: italic; color: var(--tomato-ink); font-weight: 600; }
 .brand__logo { display: block; width: auto; height: 46px; }
 
 /* ---------- Hero ---------- */
@@ -370,7 +369,6 @@ h2 { font-size: clamp(1.9rem, 1.4rem + 2.2vw, 2.9rem); margin-bottom: 16px; }
 .bonus__item--key .bonus__n { background: var(--tomato-ink); color: #fff !important; }
 
 /* ---------- Depoimentos ---------- */
-.proof__flag { display: inline-block; margin-bottom: 24px; padding: 6px 12px; border: 2px dashed var(--tomato-ink); color: var(--tomato-ink); font-weight: 700; font-size: 1rem; }
 .proof__grid { display: grid; gap: 18px; }
 .proof__card { padding: 22px 20px; background: #fff; border: 1px solid var(--line); border-radius: 10px; }
 .proof__card p { font-size: 1.12rem; line-height: 1.5; }
